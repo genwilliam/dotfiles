@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# macOS 系统设置自动化脚本 - 基于当前用户偏好提取
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# 运行前请求管理员密码
+sudo -v
+
+###############################################################################
+# 触发角 (Hot Corners)                                                         #
+###############################################################################
+
+# 左上角 -> Mission Control (2)
+defaults write com.apple.dock wvous-tl-corner -int 2
+defaults write com.apple.dock wvous-tl-modifier -int 0
+
+# 右上角 -> 启动屏幕保护程序 (5)
+defaults write com.apple.dock wvous-tr-corner -int 5
+defaults write com.apple.dock wvous-tr-modifier -int 0
+
+# 左下角 -> 显示桌面 (4)
+defaults write com.apple.dock wvous-bl-corner -int 4
+defaults write com.apple.dock wvous-bl-modifier -int 0
+
+# 右下角 -> 锁定屏幕 (13)
+defaults write com.apple.dock wvous-br-corner -int 13
+defaults write com.apple.dock wvous-br-modifier -int 0
+
+###############################################################################
+# 触控板 (Trackpad) & 鼠标                                                     #
+###############################################################################
+
+# 开启“轻点来点按” (Tap to click)
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# 开启“三指拖拽” (Three finger drag) - 这是你的核心习惯
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+
+# 开启“双指点击”触发右键
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
+
+###############################################################################
+# Finder (访达)                                                               #
+###############################################################################
+
+# 始终显示文件扩展名
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# 显示路径栏
+defaults write com.apple.finder ShowPathbar -bool true
+
+# 搜索时默认搜索当前文件夹 (SCcf)
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+# 禁用文件扩展名更改警告
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+###############################################################################
+# Dock (程序栏)                                                                #
+###############################################################################
+
+# 设置图标大小为 63 像素
+defaults write com.apple.dock tilesize -int 63
+
+# 保持 Dock 不自动隐藏 (根据你的默认值)
+defaults write com.apple.dock autohide -bool false
+
+# 在 Dock 中显示最近使用的应用程序
+defaults write com.apple.dock show-recents -bool true
+
+###############################################################################
+# 刷新环境                                                                     #
+###############################################################################
+
+echo "正在刷新系统设置..."
+for app in "Finder" "Dock" "SystemUIServer"; do
+    killall "$app" &> /dev/null
+done
+
+echo "配置完成！部分设置可能需要重启后生效。"

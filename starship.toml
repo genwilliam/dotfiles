@@ -1,0 +1,342 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+command_timeout = 800
+scan_timeout = 30
+
+format = """
+$directory$git_branch$git_status${custom.python_venv}$golang$nodejs${custom.vue}$fill$cmd_duration$time
+$status$character
+"""
+
+[character]
+success_symbol = "[❯](bold green) "
+error_symbol = "[❯](bold red) "
+
+[fill]
+symbol = " "
+
+# ----------------------
+# Git
+# ----------------------
+# Git 分支/状态显示配置
+[git_branch]
+only_attached = true
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "bold yellow"
+format = "([$all_status$ahead_behind]($style) )"
+up_to_date = "✓"
+conflicted = "✖"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?${count}"
+stashed = "≡${count}"
+modified = "!${count}"
+staged = "+${count}"
+renamed = "»${count}"
+deleted = "✘${count}"
+
+[git_state]
+format = "([$state( $progress_current/$progress_total)]($style) )"
+style = "bold red"
+
+[git_metrics]
+disabled = false
+format = "([+$added]($added_style)/[-$deleted]($deleted_style) )"
+added_style = "bold green"
+deleted_style = "bold red"
+
+# ----------------------
+# Directory
+# ----------------------
+[directory]
+truncation_length = 0
+truncate_to_repo = false
+style = "bold blue"
+read_only = " 󰌾"
+
+
+# ======================
+# Python venv（仅在当前目录属于该 venv 项目时显示）
+# ======================
+[custom.python_venv]
+# 逻辑：仅当已激活 venv 且当前目录位于该 venv 的项目根目录下时显示
+when = '''
+test -n "$VIRTUAL_ENV" || exit 1
+PROJECT_ROOT="${VIRTUAL_ENV%/*}"
+case "$PWD/" in
+    "$PROJECT_ROOT"/*|"$PROJECT_ROOT"/)
+        exit 0
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+'''
+
+command = '''
+# 在项目内：显示 venv 名和版本
+venv=$(basename "$VIRTUAL_ENV")
+pyver=$(python --version 2>&1 | sed "s/Python //")
+echo "$venv v$pyver"
+'''
+
+# 样式
+style = "bold green"
+format = "via [ $output]($style) "
+
+# 如果你希望“激活失败/路径不符”时颜色变红，可以用下面的高级格式（可选）
+# format = "via [ ${output}]($style) "
+
+
+# ----------------------
+# Golang
+# ----------------------
+[golang]
+symbol = " "
+style = "bold cyan"
+format = "via [$symbol($version )]($style)"
+
+# ----------------------
+# Duration & Time
+# ----------------------
+[cmd_duration]
+min_time = 500
+format = "took [$duration]($style) "
+style = "bold blue"
+
+[time]
+disabled = false
+time_format = "%H:%M"
+format = "[$time]($style) "
+style = "bold white"
+
+# ----------------------
+# Status
+# ----------------------
+[status]
+disabled = false
+symbol = "✖"
+success_symbol = ""
+map_symbol = false
+format = "[$symbol $status]($style) "
+style = "bold red"
+
+
+
+# ----------------------
+# Hostname
+# ----------------------
+[hostname]
+ssh_only = true
+ssh_symbol = " "
+
+# ============================================================
+# Nerd Font Symbols preset (标准 TOML 写法：表头与键分开)
+# ============================================================
+[aws]
+symbol = " "
+
+[buf]
+symbol = " "
+
+[bun]
+symbol = " "
+
+[c]
+symbol = " "
+
+[cpp]
+symbol = " "
+
+[cmake]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[deno]
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fortran]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[gcloud]
+symbol = " "
+
+[git_commit]
+tag_symbol = "  "
+
+[gradle]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+disabled = false
+threshold = 70
+format = "[$symbol ${ram_pct}]($style) "
+style = "bold yellow"
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+format = "via [$symbol($version )]($style)"
+style = "bold green"
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+detect_folders = ["node_modules"]
+[custom.vue]
+symbol = " "
+style = "bold green"
+format = "[$symbol($output )]($style)"
+
+when = 'node -e "require.resolve(\"vue\")" >/dev/null 2>&1'
+
+command = 'node -p "require(\"vue/package.json\").version"'
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+AOSC = " "
+Arch = " "
+Artix = " "
+CachyOS = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Elementary = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Ios = "󰀷 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+Nobara = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+Zorin = " "
+
+[package]
+symbol = "󰏗 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[pixi]
+symbol = "󰏗 "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = "󱘗 "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[xmake]
+symbol = " "
+
+[zig]
+symbol = " "

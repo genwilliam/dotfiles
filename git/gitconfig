@@ -1,0 +1,9 @@
+[user]
+	name = genwilliam
+	email = 178803510+genwilliam@users.noreply.github.com
+[core]
+	excludesfile = /Users/genwilliam/.gitignore_global
+	editor = code --wait
+	ignorecase = false
+[init]
+	defaultbranch = main
