@@ -1,0 +1,7 @@
+# login shell configuration
+# only executed for login shells
+# recommended to set environment variables, PATH, etc. here
+
+if command -v brew >/dev/null 2>&1; then
+  eval "$("$(command -v brew)" shellenv)"
+fi

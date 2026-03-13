@@ -1,0 +1,26 @@
+# zsh environment configuration
+# Only put variables that all zsh must have
+# this file is sourced for all zsh instances, including non-interactive ones
+typeset -U path PATH
+
+prepend_path_if_exists() {
+  [[ -d "$1" ]] && path=("$1" $path)
+}
+
+prepend_path_if_exists "$HOME/.local/bin"
+prepend_path_if_exists "$HOME/.local/share/mise/shims"
+prepend_path_if_exists "$HOME/Library/pnpm"
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  prepend_path_if_exists /opt/homebrew/bin
+  prepend_path_if_exists /usr/local/bin
+fi
+
+if [[ "$OSTYPE" == linux* ]]; then
+  prepend_path_if_exists /usr/local/bin
+fi
+
+unfunction prepend_path_if_exists
+
+export PATH
+export LANG=en_US.UTF-8
