@@ -1,9 +1,54 @@
 [user]
-	name = genwilliam
-	email = 178803510+genwilliam@users.noreply.github.com
+    name = genwilliam
+    email = 178803510+genwilliam@users.noreply.github.com
+
+# Allow private/local config
+[include]
+    path = ~/.gitconfig.local            # private config for sensitive info (e.g. GitHub token)
+
+# Core settings
 [core]
-	excludesfile = /Users/genwilliam/.gitignore_global
-	editor = code --wait
-	ignorecase = false
+    editor = code --wait
+    excludesfile = ~/.gitignore_global
+    ignorecase = false
+    autocrlf = input # auto convert CRLF to LF on commit, but not the other way around
+    untrackedCache = true # speed up status on large repos by caching untracked files
+
 [init]
-	defaultbranch = main
+    defaultBranch = main
+
+[pull]
+    rebase = true # use rebase instead of merge when pulling, to maintain a cleaner history
+
+[push]
+    default = simple # only push the current branch to its upstream, and refuse to push if it doesn't have an upstream
+
+[fetch]
+    prune = true # automatically remove remote-tracking branches that no longer exist on the remote
+
+[credential]
+    helper = osxkeychain # use macOS Keychain to store credentials securely
+
+[color]
+    ui = auto # enable color output in Git commands when output is to a terminal
+
+[help]
+    autocorrect = 1 # auto-correct mistyped Git commands after a short delay (1 decisecond)
+
+[apply]
+    whitespace = nowarn # don't warn about whitespace errors when applying patches
+
+[mergetool]
+    keepBackup = false # don't keep backup files after using mergetool
+
+[difftool]
+    prompt = false # don't prompt before launching difftool
+
+[alias]
+    st = status -sb # short status with branch info
+    co = checkout  # checkout shortcut
+    br = branch    # branch shortcut
+    ci = commit    # commit shortcut
+    lg = log --oneline --graph --decorate --all # pretty log with graph and decorations
+    last = log -1 HEAD # show the last commit
+    count = shortlog -sn # show commit counts by author
