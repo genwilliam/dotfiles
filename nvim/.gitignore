@@ -1,0 +1,75 @@
+# Lazy.nvim plugin manager
+lazy-lock.json
+/lazy/
+
+# Neovim runtime/cache directories
+/plugin/
+packer_compiled.lua
+plugin/packer_compiled.lua
+
+# LSP and Mason (language servers, linters, formatters)
+/lua/user/mason-registry
+/lua/user/mason-packages
+/.mason/
+
+# Neovim swap, backup, and undo files
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Node dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+.netrwhist
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Git
+.git
