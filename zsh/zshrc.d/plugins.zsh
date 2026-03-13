@@ -1,10 +1,7 @@
-# 插件
-
 plugins=(
   command-not-found
   git
   zsh-autosuggestions
-  zsh-syntax-highlighting
   z
   sudo
   fast-syntax-highlighting

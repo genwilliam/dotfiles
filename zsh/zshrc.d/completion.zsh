@@ -1,17 +1,21 @@
-# 补全 / fzf-tab 行为（原来放在 ~/.zshrc 末尾）
-
-# 让 fzf-tab 接管 Tab 补全并进入交互选择模式
+# Let fzf-tab take over tab completion and enter interactive selection mode
 zstyle ':completion:*' menu select
-bindkey '^I' expand-or-complete  # 绑定 Tab 键
+bindkey '^I' expand-or-complete
 
-# fzf-tab 分组切换与交互行为
+# fzf-tab Group switching and interactive behavior
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' fzf-flags '--ansi --height 40% --reverse --border'
-zstyle ':fzf-tab:complete:*' fzf-preview 'ls --color=always --group-directories-first $realpath'
+if command -v eza >/dev/null 2>&1; then
+	zstyle ':fzf-tab:complete:*' fzf-preview 'eza -1 --color=always $realpath'
+else
+	zstyle ':fzf-tab:complete:*' fzf-preview 'ls -1 $realpath'
+fi
 
-# 匹配规则（忽略大小写、支持模糊匹配）
+# rules: ignore case, ignore separators (.-_)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*'
 
 # 中文路径友好
 zstyle ':completion:*' file-sort modification
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+if [[ -n "${LS_COLORS:-}" ]]; then
+	zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+fi

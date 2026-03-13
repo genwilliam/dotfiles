@@ -1,16 +1,27 @@
-# 工具初始化（只初始化一次，避免重复 eval）
+# Tool initialization 
+# initialize only once to avoid repeated eval
 
-# starship（如果已安装）
+# starship begin
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
+# starship end
 
-# mise（如果已安装）
+# mise begin (optional hook; shims path is configured in ~/.zshenv)
 if command -v mise >/dev/null 2>&1; then
-  eval "$(mise activate zsh)"
+  : "${MISE_SHELL_ACTIVATE:=0}"
+  if [[ "$MISE_SHELL_ACTIVATE" == "1" ]]; then
+    eval "$(mise activate zsh)"
+  fi
 fi
+# mise end
 
-# thefuck（如果已安装）
+# thefuck begin (lazy)
 if command -v thefuck >/dev/null 2>&1; then
-  eval "$(thefuck --alias)"
+  fuck() {
+    eval "$(thefuck --alias)"
+    unfunction fuck
+    fuck "$@"
+  }
 fi
+# thefuck end

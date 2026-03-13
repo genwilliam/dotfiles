@@ -1,40 +1,38 @@
-# 环境变量（PATH、LANG、NVM_DIR 等）
+# Tool related environment variables
 
-# ========= 基础环境 =========
-# 自动去重 PATH，防止每次 source 时路径无限叠加导致搜索变慢
-typeset -U path PATH
-
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export LANG=en_US.UTF-8
-export PATH="$HOME/.local/share/mise/shims:$PATH"
-
-# pnpm begin
-export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
-
-# colima begin
+# docker / colima
 export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-# colima end
 
-# nvm begin
+# runtime policy: mise is primary runtime manager via shims in ~/.zshenv
+# keep nvm as on-demand fallback for projects that require it
 export NVM_DIR="$HOME/.nvm"
-source "$(brew --prefix nvm)/nvm.sh"
-source "$(brew --prefix nvm)/etc/bash_completion.d/nvm"
-# nvm end
+typeset -g _NVM_LOADED=0
 
+_load_nvm() {
+  [[ "$_NVM_LOADED" == "1" ]] && return 0
 
-# JAVA_HOME
-# export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
-# export PATH="$JAVA_HOME/bin:$PATH"
-# export DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH
+  if ! command -v brew >/dev/null 2>&1; then
+    return 1
+  fi
 
-# Go 环境
-# 优化：直接指定静态路径，避免调用 $(go env) 产生的外部进程耗时
-# export GOPATH="$HOME/go"
-# GOROOT 通常不需要手动 export，除非你安装了多个 Go 版本
-# export GOROOT="$(go env GOROOT)" 
+  local nvm_prefix
+  nvm_prefix="$(brew --prefix nvm 2>/dev/null)"
+  [[ -s "$nvm_prefix/nvm.sh" ]] || return 1
 
-# Go bin 加入 PATH
-# export PATH="$PATH:$GOPATH/bin"
+  source "$nvm_prefix/nvm.sh"
+  [[ -s "$nvm_prefix/etc/bash_completion.d/nvm" ]] && source "$nvm_prefix/etc/bash_completion.d/nvm"
+  _NVM_LOADED=1
+  return 0
+}
+
+nvm() {
+  unfunction nvm
+  _load_nvm
+
+  if ! command -v nvm >/dev/null 2>&1; then
+    echo "nvm failed to load from Homebrew (expected: \$(brew --prefix nvm)/nvm.sh)" >&2
+    return 127
+  fi
+
+  nvm "$@"
+}
