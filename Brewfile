@@ -11,6 +11,8 @@ brew "lz4"
 brew "mise"
 brew "mole"
 brew "neovim"
+brew "nvm"
+brew "ripgrep"
 brew "starship"
 brew "tldr"
 brew "tmux"
@@ -19,6 +21,7 @@ cask "aldente", args: { appdir: "~/Applications" }
 cask "anki", args: { appdir: "~/Applications" }
 cask "app-cleaner"
 cask "cleanshot", args: { appdir: "~/Applications" }
+cask "devtoys", args: { appdir: "~/Applications" }
 cask "downie", args: { appdir: "~/Applications" }
 cask "easydict", args: { appdir: "~/Applications" }
 cask "folo", args: { appdir: "~/Applications" }
@@ -37,8 +40,8 @@ cask "one-switch"
 cask "onyx"
 cask "permute", args: { appdir: "~/Applications" }
 cask "picgo", args: { appdir: "~/Applications" }
-cask "playcover-community", args: { appdir: "~/Applications" }
 cask "raycast", args: { appdir: "~/Applications" }
+cask "rustdesk", args: { appdir: "~/Applications" }
 cask "steam"
 cask "typora", args: { appdir: "~/Applications" }
 cask "visual-studio-code", args: { appdir: "~/Applications" }
@@ -88,7 +91,4 @@ vscode "vitest.explorer"
 vscode "vue.volar"
 vscode "xabikos.javascriptsnippets"
 go "cmd/go"
-go "golang.org/x/tools/cmd/godoc"
 go "cmd/gofmt"
-go "golang.org/x/tools/gopls"
-uv "thefuck"
