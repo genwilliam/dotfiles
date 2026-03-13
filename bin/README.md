@@ -1,3 +1,5 @@
+[中文](README-zh.md) | English
+
 ## Purpose of the `bin/` Directory
 
 The `bin/` directory contains personal executable scripts (personal CLI utilities).

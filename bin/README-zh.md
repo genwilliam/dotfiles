@@ -1,3 +1,5 @@
+中文 | [English](README.md)
+
 ## `bin/` 目录的作用
 
 `bin/` 目录用于存放个人可执行脚本（personal CLI utilities）。

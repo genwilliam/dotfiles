@@ -1,3 +1,5 @@
+[中文](README-zh.md) | English
+
 # Introduction
 
 After reading [webpro's article](https://github.com/webpro/awesome-dotfiles), I discovered many useful dotfiles. I think they are great, but I don't want to copy them directly (I believe everyone's computer setup is unique). I want a configuration that fits me, just like [mathiasbynens](https://github.com/mathiasbynens/dotfiles).
@@ -33,6 +35,21 @@ I like this principle (we all do, right?). So in my dotfiles, different tools do
 ...
 
 # zsh
+
+> Before you begin, please read [zsh/bash loading order](https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/).
+
+> Moral:
+>   For bash, put stuff in ~/.bashrc, and make ~/.bash_profile source it.
+>   For zsh, put stuff in ~/.zshrc, which is always executed.
+
+Briefly talk about my understanding:
+
+| File        | Load Order | When It Is Loaded                          | Shell Type                                      | Runs Every Shell Start?  | Typical Use                                            |
+| ----------- | ---------- | ------------------------------------------ | ----------------------------------------------- | ------------------------ | ------------------------------------------------------ |
+| `.zshenv`   | 1          | Loaded for **every Zsh invocation**        | login / interactive / non-interactive / scripts | ✅ Yes                   | Basic environment variables (`PATH`, `LANG`, `EDITOR`) |
+| `.zprofile` | 2          | Loaded when a **login shell** starts       | login shell                                     | ❌ No (login only)       | Login initialization, `brew shellenv`, PATH setup      |
+| `.zshrc`    | 3          | Loaded for **interactive shells**          | interactive shell                               | ❌ No (interactive only) | aliases, prompt, plugins, completion                   |
+| `.zlogin`   | 4          | Loaded **after `.zshrc` in a login shell** | login shell                                     | ❌ No (login only)       | Post-login tasks, startup messages                     |
 
 I use [`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh) to manage my zsh configuration. It's an open-source, community-driven framework that makes zsh config easier and provides many useful plugins and themes.
 
@@ -107,6 +124,32 @@ You can modify it as needed.
 Its path must match the setting in `gitconfig`; otherwise Git won't load these rules.
 
 If you don't like this approach, you can remove it and add a `.gitignore` file in each project instead, which gives more flexible per-project control.
+
+# tmux
+
+My tmux configuration is based on [oh-my-tmux](https://github.com/gpakosz/.tmux)
+Automatically install this configuration as follows:
+
+```bash
+curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
+```
+
+# nvim
+
+Based on [nvchad](https://nvchad.com/) nvim configuration, with added:
+
+1. Some VS Code-like keybindings (nvim/lua/mappings.lua)
+2. In the terminal, when using the `nvim` command without specifying a file, open a default directory instead of an empty nvim interface (nvim/lua/autocmds.lua)
+
+> Please modify the default directory in `nvim/lua/autocmds.lua`, otherwise it will report an error for the missing directory
+
+If you don't have nvim installed, you can use the following command to install it (macOS):
+
+```bash
+brew install nvim
+```
+
+Or download it from the [official website](https://neovim.io/).
 
 # Brewfile
 

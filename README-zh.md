@@ -1,3 +1,5 @@
+中文 | [English](README.md)
+
 # 简介
 
 看了[webpro的文章](https://github.com/webpro/awesome-dotfiles)，发现了很多有用的点文件(dotfiles)。我觉得它们很棒，但我不想直接复制它们(我相信每个人的电脑配置都是独一无二的)。我想要一个适合我的配置文件。就像[mathiasbynens](https://github.com/mathiasbynens/dotfiles)一样。
@@ -31,6 +33,22 @@
 ......
 
 # zsh
+
+> 在开始之前,请先阅读[zsh/bash的加载顺序](https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/)
+
+> 结论：
+>
+> 对于 bash，将配置放在 ~/.bashrc 文件中，并让 ~/.bash_profile 文件执行它。
+> 对于 zsh，将配置放在 ~/.zshrc 文件中，该文件始终会被执行。
+
+###### 浅谈我的理解:
+
+| 文件        | 启动顺序 | 何时加载                   | Shell 类型                                     | 每次启动都会执行吗     | 典型用途                                    |
+| ----------- | -------- | -------------------------- | ---------------------------------------------- | ---------------------- | ------------------------------------------- |
+| `.zshenv`   | 1        | **所有 zsh 启动时**        | login / interactive / non-interactive / script | ✅ 是                  | 基础环境变量（`PATH`、`LANG`、`EDITOR` 等） |
+| `.zprofile` | 2        | **login shell 启动时**     | login shell                                    | ❌ 否（只在 login 时） | 登录初始化、`brew shellenv`、PATH 初始化    |
+| `.zshrc`    | 3        | **交互 shell 启动时**      | interactive shell                              | ❌ 否（仅交互 shell）  | alias、prompt、plugin、completion           |
+| `.zlogin`   | 4        | **login shell 启动完成后** | login shell                                    | ❌ 否（只在 login 时） | 登录后任务、欢迎信息、启动程序              |
 
 我使用[`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh)来管理我的zsh配置,它是一个开源的、社区驱动的框架,可以帮助你轻松地管理你的zsh配置文件,并且提供了很多有用的插件和主题.
 
@@ -92,6 +110,32 @@ ln -s ~/dotfiles/starship/starship.toml ~/.config/starship.toml
 gitignore_global文件包含了全局的git忽略规则,比如node_modules等,你可以根据自己的需要进行修改,这个文件的路径需要和gitconfig中的配置一致,否则git不会使用这个文件中的规则.
 
 如果你觉得不好,也可以删除,并在每个项目中添加`.gitignore`文件,来指定项目的忽略规则,这样可以更灵活的管理不同项目的忽略规则.
+
+# tmux
+
+我的tmux配置是基于[oh-my-tmux](https://github.com/gpakosz/.tmux)
+自动安装这个配置如下:
+
+```bash
+curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
+```
+
+# nvim
+
+基于[nvchad](https://nvchad.com/)的nvim配置,添加了:
+
+1. 一些类似vs code的快捷键(nvim/lua/mappings.lua)
+2. 在终端只使用`nvim`这个命令打开nvim的时候(没有加上文件名),打开一个默认目录,而不是一个空的nvim界面(nvim/lua/autocmds.lua)
+
+> 请你修改默认目录在`nvim/lua/autocmds.lua`中,否则会报错没有这个目录
+
+如果还没有nvim,你可以使用下面的命令来安装(macOS):
+
+```bash
+brew install nvim
+```
+
+或者在[官网](https://neovim.io/)下载
 
 # Brewfile
 
