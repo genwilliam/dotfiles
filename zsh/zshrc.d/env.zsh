@@ -36,3 +36,7 @@ nvm() {
 
   nvm "$@"
 }
+
+
+# uv python version manager
+export PATH="$HOME/.local/share/uv/python/cpython-3.11-macos-aarch64-none/bin:$PATH"
