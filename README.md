@@ -53,6 +53,21 @@ Briefly talk about my understanding:
 
 I use [`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh) to manage my zsh configuration. It's an open-source, community-driven framework that makes zsh config easier and provides many useful plugins and themes.
 
+## Completion cache stability (`compinit` / `compdump`)
+
+In large plugin setups, repeated `source ~/.zshrc` can become unexpectedly slow when `compinit` keeps rebuilding completion metadata (`compdump`).
+
+- `oh-my-zsh.sh` appends plugin completion paths into `fpath` before running `compinit`.
+- If `~/.zshrc` is sourced multiple times in the same shell, duplicated `fpath` entries can change completion metadata fingerprints.
+- Once metadata differs, Oh My Zsh invalidates the dump and regenerates completion cache, which makes startup/reload time jump from milliseconds to hundreds of milliseconds (or more).
+
+### Current fix in this repo
+
+- Enable `fpath` uniqueness (`typeset -gU fpath`) to prevent path duplication during repeated sourcing.
+- Pin cache locations with `ZSH_CACHE_DIR` and `ZSH_COMPDUMP` under `~/.cache` for deterministic cache behavior.
+- Guard Oh My Zsh bootstrap so completion initialization is performed once per interactive shell session, avoiding redundant `compinit`/`compdump` work on repeated `source ~/.zshrc`.
+- Keep profile output optional (`ZSH_STARTUP_PROFILE=1`) so normal interactive use is clean and low-overhead.
+
 I've used two themes: [`powerlevel10k`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes#powerlevel10k) and [`starship`](https://github.com/starship/starship).
 
 > [!CAUTION]
@@ -136,13 +151,7 @@ curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(
 
 # nvim
 
-Based on [nvchad](https://nvchad.com/) nvim configuration, with added:
-
-1. Some VS Code-like keybindings (nvim/lua/mappings.lua)
-2. In the terminal, when using the `nvim` command without specifying a file, open a default directory instead of an empty nvim interface (nvim/lua/autocmds.lua)
-
-> Please modify the default directory in `nvim/lua/autocmds.lua`, otherwise it will report an error for the missing directory
-
+Based on [nvchad](https://nvchad.com/) nvim configuration,
 If you don't have nvim installed, you can use the following command to install it (macOS):
 
 ```bash

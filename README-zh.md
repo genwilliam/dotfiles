@@ -52,6 +52,21 @@
 
 我使用[`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh)来管理我的zsh配置,它是一个开源的、社区驱动的框架,可以帮助你轻松地管理你的zsh配置文件,并且提供了很多有用的插件和主题.
 
+## 补全缓存稳定性（`compinit` / `compdump`）
+
+在插件较多的配置中，重复执行 `source ~/.zshrc` 变慢，通常不是插件本身慢，而是 `compinit` 反复重建补全缓存（`compdump`）导致的。
+
+- `oh-my-zsh.sh` 会在执行 `compinit` 前把插件补全路径追加到 `fpath`。
+- 如果同一 shell 会话里多次 `source ~/.zshrc`，`fpath` 可能出现重复项并改变补全元数据指纹。
+- 元数据发生变化后，Oh My Zsh 会判定缓存失效并重建 dump，导致加载时间从毫秒级升到数百毫秒甚至更高。
+
+### 本仓库当前方案
+
+- 使用 `typeset -gU fpath` 保证 `fpath` 唯一化，避免重复 source 引起路径膨胀。
+- 通过 `ZSH_CACHE_DIR` 与 `ZSH_COMPDUMP` 固定缓存位置到 `~/.cache`，确保缓存行为可预测。
+- 对 Oh My Zsh 的 bootstrap 做一次性守卫：同一交互 shell 中只进行一次补全初始化，避免重复触发 `compinit`/`compdump`。
+- 将性能剖析输出保持为可选（`ZSH_STARTUP_PROFILE=1`），日常使用默认无额外输出与开销。
+
 我使用过两个主题,[`powerlevel10k`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes#powerlevel10k),和[`starship`](https://github.com/starship/starship)
 
 > [!CAUTION]
@@ -122,12 +137,7 @@ curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(
 
 # nvim
 
-基于[nvchad](https://nvchad.com/)的nvim配置,添加了:
-
-1. 一些类似vs code的快捷键(nvim/lua/mappings.lua)
-2. 在终端只使用`nvim`这个命令打开nvim的时候(没有加上文件名),打开一个默认目录,而不是一个空的nvim界面(nvim/lua/autocmds.lua)
-
-> 请你修改默认目录在`nvim/lua/autocmds.lua`中,否则会报错没有这个目录
+基于[nvchad](https://nvchad.com/)的nvim配置,
 
 如果还没有nvim,你可以使用下面的命令来安装(macOS):
 
