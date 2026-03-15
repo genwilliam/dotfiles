@@ -3,6 +3,9 @@
 # docker / colima
 export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 
+# ollama
+export OLLAMA_API_KEY="ollama-local"
+
 # runtime policy: mise is primary runtime manager via shims in ~/.zshenv
 # keep nvm as on-demand fallback for projects that require it
 export NVM_DIR="$HOME/.nvm"
@@ -40,3 +43,6 @@ nvm() {
 
 # uv python version manager
 export PATH="$HOME/.local/share/uv/python/cpython-3.11-macos-aarch64-none/bin:$PATH"
+
+# I download openclaw from npm
+export PATH="$(npm bin -g):$PATH"
