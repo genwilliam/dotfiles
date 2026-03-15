@@ -4,10 +4,10 @@
 # macOS System Settings Automation Script - Based on Current User Preferences
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Request administrator password before running
+################################ Request administrator password before running
 sudo -v
 
-# Hot Corners
+############################### Hot Corners ###############################
 # Top-left corner -> Mission Control (2)
 defaults write com.apple.dock wvous-tl-corner -int 2
 defaults write com.apple.dock wvous-tl-modifier -int 0
@@ -25,13 +25,13 @@ defaults write com.apple.dock wvous-br-corner -int 13
 defaults write com.apple.dock wvous-br-modifier -int 0
 
 
-# Trackpad & Mouse
+############################### Trackpad & Mouse ###############################
 # Tap to click
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-# Three finger drag
+# Three finger drag(Dragging with three finger drag)
 defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
 
@@ -39,17 +39,73 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeF
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
 defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
 
-# Finder
+# open mouse acceleration(default is false, false is opened, true is closed)
+# Set movement speed of the mouse cursor: https://macos-defaults.com/mouse/scaling.html 
+defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
+
+# Choose whether to enable moving focus with Tab and Shift Tab.
+defaults write NSGlobalDomain AppleKeyboardUIMode -int "2"
+
+# Enable "group windows by application" in Mission Control (default is false)
+defaults write com.apple.dock "expose-group-apps" -bool "true" && killall Dock
+
+############################## Finder ###############################
 # Show Path Bar
 defaults write com.apple.finder ShowPathbar -bool true
 
 # Search in the current folder by default (SCcf)
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
+# Set the default view style for folders with no custom settings(https://macos-defaults.com/finder/fxpreferredviewstyle.html)
+defaults write com.apple.finder "FXPreferredViewStyle" -string "icnv"
 
-# Dock
+# setting the default search scope to "current folder" (SCcf) instead of "This Mac" (SCev)
+# more: https://macos-defaults.com/finder/fxdefaultsearchscope.html
+defaults write com.apple.finder "FXDefaultSearchScope" -string "SCcf"
+
+# 30days after which the items in the Trash are automatically deleted(default is false)
+defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true"
+
+# Show warning before changing an extension(true by default)
+# when value is false, it will not show the warning when changing a file extension, which can lead to accidental changes and potential issues with file compatibility. It's generally recommended to keep this setting enabled to avoid unintended consequences.
+defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool "true"
+
+# Show hard disks on desktop(default is false)
+defaults write com.apple.finder "ShowHardDrivesOnDesktop" -bool "false"
+
+# Hide external disks on desktop(default is true)
+defaults write com.apple.finder "ShowExternalHardDrivesOnDesktop" -bool "true"
+
+
+
+
+############################### Dock ###############################
 # set the icon size of Dock items to 63 pixels
-defaults write com.apple.dock tilesize -int 63
+# defaults write com.apple.dock tilesize -int 63
+defaults delete com.apple.dock "tilesize" # default settings
+
+# when auto hiding the dock is open, make the animation 2 seconds(default: 0.5, close: 0)
+# defaults write com.apple.dock "autohide-time-modifier" -float "2"
+
+# Show recent usage history in Dock
+defaults write com.apple.dock "show-recents" -bool "true" # default
+# defaults write com.apple.dock "show-recents" -bool "false" && killall Dock
+
+# Minimize animation effect (https://macos-defaults.com/dock/mineffect.html)
+defaults write com.apple.dock "mineffect" -string "genie" # default
+# defaults write com.apple.dock "mineffect" -string "scale" && killall Dock 
+# defaults write com.apple.dock "mineffect" -string "suck" && killall Dock
+
+####### Show only apps that are open in the Dock(https://macos-defaults.com/dock/static-only.html)
+
+# Scroll up on a Dock icon to show all Space's opened windows for an app, or open stack.default is "false"
+# lock https://macos-defaults.com/dock/scroll-to-open.html
+defaults write com.apple.dock "scroll-to-open" -bool "true"
+
+# enable dock magnification, and set the magnified icon size to 67 pixels(default is false, default magnified size is 128)
+defaults write com.apple.dock magnification -bool true
+defaults write com.apple.dock largesize -int 67
+
 
 
 # begin
