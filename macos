@@ -106,7 +106,24 @@ defaults write com.apple.dock "scroll-to-open" -bool "true"
 defaults write com.apple.dock magnification -bool true
 defaults write com.apple.dock largesize -int 67
 
+################################################## font #####################################3
+defaults write -g CGFontRenderingFontSmoothingDisabled -bool false # Subpixel Anti-Aliasing (Font Smoothing)
 
+
+######################################### other #############################
+# Show Attachments as Icons
+defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
+
+# clean dns cache
+sudo dscacheutil -flushcache && \
+sudo killall -HUP mDNSResponder
+
+# Firewall Service
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+
+
+############################### delete google update ################
+~/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/ksinstall --nuke
 
 # begin
 echo "Refreshing system settings..."
