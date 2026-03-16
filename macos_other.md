@@ -1,4 +1,4 @@
-Vacuum Mail Index
+Vacuum Mail Index(https://herrbischoff.com/code/me/awesome-macos-command-line#appearance)
 The AppleScript code below will quit Mail, vacuum the SQLite index, then re-open Mail. On a large email database that hasn't been optimized for a while, this can provide significant improvements in responsiveness and speed.
 ```shell
 (*
