@@ -1,14 +1,16 @@
+tap "steipete/tap"
 brew "bat"
 brew "colima"
 brew "docker"
 brew "gettext"
+brew "gh"
 brew "git"
+brew "go@1.24", link: true
 brew "ncurses"
 brew "htop"
 brew "libevent"
 brew "libuv"
 brew "lz4"
-brew "mise"
 brew "mole"
 brew "neovim"
 brew "nvm"
@@ -16,6 +18,8 @@ brew "ripgrep"
 brew "starship"
 brew "tldr"
 brew "tmux"
+brew "uv"
+brew "steipete/tap/remindctl"
 cask "alcove"
 cask "aldente", args: { appdir: "~/Applications" }
 cask "anki", args: { appdir: "~/Applications" }
@@ -43,6 +47,7 @@ cask "picgo", args: { appdir: "~/Applications" }
 cask "raycast", args: { appdir: "~/Applications" }
 cask "rustdesk", args: { appdir: "~/Applications" }
 cask "steam"
+cask "steam-plus-plus", args: { appdir: "~/Applications" }
 cask "typora", args: { appdir: "~/Applications" }
 cask "visual-studio-code", args: { appdir: "~/Applications" }
 cask "zed", args: { appdir: "~/Applications" }
@@ -90,5 +95,8 @@ vscode "streetsidesoftware.code-spell-checker"
 vscode "vitest.explorer"
 vscode "vue.volar"
 vscode "xabikos.javascriptsnippets"
-go "cmd/go"
-go "cmd/gofmt"
+go "github.com/air-verse/air"
+go "golang.org/x/tools/gopls"
+go "honnef.co/go/tools/cmd/staticcheck"
+uv "nano-pdf"
+uv "thefuck"
