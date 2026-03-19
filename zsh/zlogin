@@ -1,0 +1,14 @@
+# login shell configuration
+# only executed for login shells
+# Use this file for tasks you only want to run once per login session.
+
+# Set a simple terminal title for Terminal/iTerm2.
+if [[ -n "$TERM_PROGRAM" ]]; then
+  print -Pn "\e]0;%n@%m: %~\a"
+fi
+
+# Automatically attach to an existing tmux session or create one.
+# Comment this out if you prefer a plain shell on login.
+if command -v tmux >/dev/null 2>&1 && [[ -z "$TMUX" ]]; then
+  tmux attach -t main 2>/dev/null || tmux new -s main
+fi

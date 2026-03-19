@@ -1,0 +1,12 @@
+# logout shell configuration
+# executed when a login shell exits
+# Use this file for cleanup tasks or to stop services started by zlogin.
+
+# If you want, you can automatically detach or kill tmux sessions when
+# logging out of a login shell. By default we do nothing here so the tmux
+# server can keep running after logout.
+
+# Example: detach from tmux automatically (uncomment to enable)
+# if [[ -n "$TMUX" ]]; then
+#   tmux detach-client
+# fi
