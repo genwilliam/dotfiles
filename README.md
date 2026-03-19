@@ -4,6 +4,28 @@
 
 After reading [webpro's article](https://github.com/webpro/awesome-dotfiles), I discovered many useful dotfiles. I think they are great, but I don't want to copy them directly (I believe everyone's computer setup is unique). I want a configuration that fits me, just like [mathiasbynens](https://github.com/mathiasbynens/dotfiles).
 
+## Quick start
+
+Clone the repository, then run the installer:
+
+```bash
+git clone https://github.com/genwilliam/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./install.sh
+```
+
+If you want the installer to also delete any `README*` files under your home directory (e.g. from previous sync attempts), run:
+
+```bash
+./install.sh --remove-readmes
+```
+
+If you only want to validate the dotfiles links and warm up zsh startup caching, run:
+
+```bash
+./bootstrap.sh
+```
+
 > As [Joshua Clayton said in a recent episode of The Changelog](http://thechangelog.com/post/17827235767/episode-0-7-3-tmux-with-brian-hogan-and-josh-clayton), if you're unhappy with your dotfiles, you're doing it wrong™. Pick and choose what you like from other people's dotfiles. Learn from everyone, follow no one. Build your own lightsaber. Rebuild it from scratch with confidence. Original: https://wynnnetherland.com/journal/dotfiles-discovery
 
 ##### If you don't know what dotfiles are, this [article](https://jogendra.dev/i-do-dotfiles) is helpful.
