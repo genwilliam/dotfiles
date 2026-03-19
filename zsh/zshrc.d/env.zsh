@@ -1,12 +1,18 @@
 # Tool related environment variables
 
-# docker / colima
+# docker / colima begin
 export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+# docker / colima end
 
-# ollama
+# ollama begin
 export OLLAMA_API_KEY="ollama-local"
+# ollama end
 
-# runtime policy: mise is primary runtime manager via shims in ~/.zshenv
+# brew begin
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+# brew end
+
+# nvm begin
 # keep nvm as on-demand fallback for projects that require it
 export NVM_DIR="$HOME/.nvm"
 typeset -g _NVM_LOADED=0
@@ -39,10 +45,17 @@ nvm() {
 
   nvm "$@"
 }
+# nvm end
 
-
-# uv python version manager
-export PATH="$HOME/.local/share/uv/python/cpython-3.11-macos-aarch64-none/bin:$PATH"
-
+# npm begin
 # I download openclaw from npm
-export PATH="$(npm bin -g):$PATH"
+# Only add npm global bin when npm is available to avoid failing interactive shells
+if command -v npm >/dev/null 2>&1; then
+  export PATH="$(npm bin -g):$PATH"
+fi
+# npm end
+
+# uv begin
+# Only add uv-managed python shims when uv is installed (avoid startup errors)
+# export PATH="$HOME/.local/bin:$PATH"
+# uv end
