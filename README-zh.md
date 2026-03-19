@@ -4,6 +4,28 @@
 
 看了[webpro的文章](https://github.com/webpro/awesome-dotfiles)，发现了很多有用的点文件(dotfiles)。我觉得它们很棒，但我不想直接复制它们(我相信每个人的电脑配置都是独一无二的)。我想要一个适合我的配置文件。就像[mathiasbynens](https://github.com/mathiasbynens/dotfiles)一样。
 
+## 快速开始
+
+克隆仓库后运行安装脚本：
+
+```bash
+git clone https://github.com/genwilliam/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./install.sh
+```
+
+如果你希望安装脚本同时删除 `~` 目录下的 `README*` 文件（例如以前同步时留下的），可以运行：
+
+```bash
+./install.sh --remove-readmes
+```
+
+如果你只是想验证配置已正确链接并让 zsh 预热缓存，可以运行：
+
+```bash
+./bootstrap.sh
+```
+
 > 正如[Joshua Clayton在最近一期《The Changelog》节目](http://thechangelog.com/post/17827235767/episode-0-7-3-tmux-with-brian-hogan-and-josh-clayton)中所说，归根结底，如果你觉得自己的配置文件不够完美，那你就做错了™。（顺便说一句，[他的配置文件](https://github.com/joshuaclayton/dotfiles/)非常出色。）从其他配置文件中挑选你喜欢的部分。保留有效的，舍弃无效的。打造你自己的光剑。充满信心地重新构建它。原文:https://wynnnetherland.com/journal/dotfiles-discovery
 
 ##### 如果不知道什么是dotfiles,你会觉得这篇[文章](https://jogendra.dev/i-do-dotfiles)会很有用
