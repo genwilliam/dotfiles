@@ -1,7 +1,7 @@
 # git begin
 alias gs='git status'
 alias ga='git add'
-alias gc='git commit'
+alias gc='git commit -m'
 alias gp='git push'
 # git end
 
