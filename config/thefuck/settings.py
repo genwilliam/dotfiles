@@ -1,34 +1,26 @@
 # The Fuck settings file
 #
-# This file is loaded by `thefuck` when it starts.
-# Customize it to match your workflow.
+# The rules are defined as in the example bellow:
 #
-# See https://github.com/nvbn/thefuck#settings for full documentation.
+# rules = ['cd_parent', 'git_push', 'python_command', 'sudo']
+#
+# The default values are as follows. Uncomment and change to fit your needs.
+# See https://github.com/nvbn/thefuck#settings for more information.
+#
 
-# Enable the most common rules (all rules by default).
-# You can restrict this list if you want to disable some rules.
-rules = [
-    'git_push',
-    'git_pull',
-    'sudo',
-    'python_command',
-    'cd_parent',
-    'apt_get',
-    'sudo_command',
-    'rm_dir',
-]
-
-# Do not ask for confirmation before applying a fix.
-require_confirmation = False
-
-# Keep a reasonable history length.
-history_limit = 200
-
-# Automatically apply the fix if there is a single match.
-instant_mode = True
-
-# When using thefix more than once, enable repeat shorthand (``fuck``).
-repeat = True
-
-# Make sure the environment is predictable.
-env = {'LC_ALL': 'C', 'LANG': 'C'}
+# rules = [<const: All rules enabled>]
+# exclude_rules = []
+# wait_command = 3
+# require_confirmation = True
+# no_colors = False
+# debug = False
+# priority = {}
+# history_limit = None
+# alter_history = True
+# wait_slow_command = 15
+# slow_commands = ['lein', 'react-native', 'gradle', './gradlew', 'vagrant']
+# repeat = False
+# instant_mode = False
+# num_close_matches = 3
+# env = {'LC_ALL': 'C', 'LANG': 'C', 'GIT_TRACE': '1'}
+# excluded_search_path_prefixes = []
