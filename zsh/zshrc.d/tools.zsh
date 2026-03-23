@@ -24,3 +24,7 @@ if command -v thefuck >/dev/null 2>&1; then
   }
 fi
 # thefuck end
+
+# mise begin
+eval "$(mise activate zsh)"
+# mise end
