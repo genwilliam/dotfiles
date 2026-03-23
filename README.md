@@ -6,7 +6,7 @@ After reading [webpro's article](https://github.com/webpro/awesome-dotfiles), I 
 
 ## Quick start
 
-Clone the repository, then run the installer:
+Clone the repository, then run the installer(Mac/Linux):
 
 ```bash
 git clone https://github.com/genwilliam/dotfiles.git ~/dotfiles
@@ -19,6 +19,24 @@ If you want the installer to also delete any `README*` files under your home dir
 ```bash
 ./install.sh --remove-readmes
 ```
+
+For Windows users, use one of these installers instead:
+
+```powershell
+# PowerShell (recommended on Windows)
+./install-for-windows.ps1
+```
+
+```bash
+# Git Bash shell script
+./install-for-windows.sh
+```
+
+> [!IMPORTANT]
+>
+> On Windows, creating symbolic links usually requires either **Administrator privileges** or **Developer Mode**.
+> If you run into link creation errors, run your terminal as Administrator, or enable Developer Mode:
+> Settings → Privacy & security → For developers → Developer Mode.
 
 If you only want to validate the dotfiles links and warm up zsh startup caching, run:
 
@@ -244,8 +262,17 @@ You can read more about `defaults` [here](https://developer.apple.com/library/ar
 
 This one-shot script does the following:
 
-- Installs Homebrew
-- Installs apps/packages from Brewfile
+- macOS: installs Homebrew (with confirmation), then installs apps/packages from Brewfile
+- Linux: skips Homebrew/Brewfile and uses your detected package manager for required packages
 - Installs oh-my-zsh
 - Installs p10k or starship (starship by default)
 - Installs zsh plugins
+- Prints Meslo Nerd Font guidance at the end
+
+For Meslo Nerd Font:
+
+- Windows: download from
+  https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
+- macOS:
+  `brew tap homebrew/cask-fonts && brew install --cask font-meslo-lg-nerd-font`
+- Linux: use your package manager to install Meslo/Nerd Fonts (script prints detected manager hints)

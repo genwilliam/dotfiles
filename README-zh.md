@@ -6,7 +6,7 @@
 
 ## 快速开始
 
-克隆仓库后运行安装脚本：
+克隆仓库后运行安装脚本(Mac/Linux)：
 
 ```bash
 git clone https://github.com/genwilliam/dotfiles.git ~/dotfiles
@@ -19,6 +19,24 @@ cd ~/dotfiles
 ```bash
 ./install.sh --remove-readmes
 ```
+
+如果你是 Windows 用户，请使用下面其中一个安装脚本：
+
+```powershell
+# Windows PowerShell（推荐）
+./install-for-windows.ps1
+```
+
+```bash
+# Git Bash 脚本
+./install-for-windows.sh
+```
+
+> [!IMPORTANT]
+>
+> 在 Windows 上创建符号链接通常需要 **管理员权限** 或启用 **Developer Mode（开发者模式）**。
+> 如果出现链接创建失败，请用管理员身份运行终端，或者到以下路径开启开发者模式：
+> 设置 → 隐私和安全性 → 面向开发人员 → 开发人员模式。
 
 如果你只是想验证配置已正确链接并让 zsh 预热缓存，可以运行：
 
@@ -217,8 +235,17 @@ macos可以使用 `defaults` 命令来修改系统偏好设置,你可以在[这�
 
 这是一键下载完成以下工作的命令:
 
-- 安装Homebrew
-- 安装Brewfile中的程序
+- macOS: 交互确认后安装 Homebrew，并安装 Brewfile 中的程序
+- Linux: 跳过 Homebrew/Brewfile，使用检测到的包管理器安装所需依赖
 - 安装ohmyzsh
 - 安装p10k或者starship(默认)
 - 安装zsh插件
+- 脚本结束时会提示 Meslo Nerd Font 安装方式
+
+Meslo Nerd Font 安装说明：
+
+- Windows：
+  https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
+- macOS：
+  `brew tap homebrew/cask-fonts && brew install --cask font-meslo-lg-nerd-font`
+- Linux：使用系统包管理器安装 Meslo/Nerd Fonts（脚本会提示检测到的包管理器）
