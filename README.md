@@ -189,6 +189,77 @@ Automatically install this configuration as follows:
 curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
 ```
 
+After syncing this repo, tmux mainly reads customizations from `tmux/tmux.conf.local`.
+
+## Enabled plugins
+
+- `tmux-plugins/tmux-copycat`: quick regex-based search in scrollback/copy-mode.
+- `tmux-plugins/tmux-resurrect`: save and restore tmux sessions/windows/panes.
+- `27medkamal/tmux-session-wizard`: project/session switcher popup (fzf + zoxide).
+- `tmux-plugins/tmux-sensible`: safer defaults and compatibility tweaks.
+- `tmux-plugins/tmux-yank`: copy selected text into system clipboard.
+- `tmux-plugins/tmux-open`: open highlighted path/URL with system handler.
+
+Optional but currently disabled:
+
+- `tmux-plugins/tmux-cpu`
+- `tmux-plugins/tmux-continuum`
+
+TPM lifecycle keys:
+
+- `Prefix + I`: install plugins
+- `Prefix + u`: update plugins
+- `Prefix + Alt + u`: uninstall removed plugins
+
+## Enabled and custom features
+
+- Based on Oh My Tmux theme model and status segments.
+- Mouse mode enabled by default (`set -g mouse on`).
+- Larger scrollback history (`set -g history-limit 10000`).
+- Copy to OS clipboard enabled (`tmux_conf_copy_to_os_clipboard=true`).
+- Added split shortcut: `Prefix + =` for left/right split (`split-window -h`).
+- Kept split shortcut: `Prefix + -` for top/bottom split.
+- Added `dd` delete flow in session tree (`Prefix + s`):
+  - first `d` enters delete key table
+  - second `d` kills selected session/window/pane
+  - `Esc` exits delete key table
+
+> Note: `Prefix + s` is tmux built-in choose-tree, while `tmux-session-wizard` default key is `Prefix + T` unless customized.
+
+## Common tmux shortcuts
+
+Assume default prefix is `Ctrl+b`.
+
+### Session and tree
+
+- `Prefix + s`: open session tree (choose-tree)
+- `j` / `k`: move down/up in list
+- `dd`: delete selected item (custom behavior in this repo)
+- `Prefix + T`: open session wizard popup (plugin default)
+
+### Windows and panes
+
+- `Prefix + c`: create new window
+- `Prefix + w`: open window tree/list
+- `Prefix + -`: split top/bottom
+- `Prefix + =`: split left/right (custom)
+- `Prefix + x`: kill current pane
+- `Prefix + z`: zoom/unzoom pane
+- `Prefix + q`: show pane numbers
+
+### Navigation and maintenance
+
+- `Prefix + h/j/k/l`: move between panes
+- `Prefix + H/J/K/L`: resize pane
+- `Prefix + r`: reload tmux config
+- `Prefix + m`: toggle mouse mode (custom toggle)
+
+### Copy mode and clipboard
+
+- `Prefix + [`: enter copy mode
+- In copy-mode-vi: `v` start selection, `y` copy and exit
+- Copied content is piped to system clipboard on macOS/Linux when backend tool is available
+
 # nvim
 
 Based on [nvchad](https://nvchad.com/) nvim configuration,

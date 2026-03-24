@@ -175,6 +175,77 @@ gitignore_global文件包含了全局的git忽略规则,比如node_modules等,�
 curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
 ```
 
+同步本仓库后，tmux 的主要自定义配置在 `tmux/tmux.conf.local`。
+
+## 已启用插件
+
+- `tmux-plugins/tmux-copycat`：在滚动历史/复制模式中做快速搜索。
+- `tmux-plugins/tmux-resurrect`：保存并恢复 tmux 会话、窗口、面板。
+- `27medkamal/tmux-session-wizard`：项目/会话快速切换弹窗（fzf + zoxide）。
+- `tmux-plugins/tmux-sensible`：提供更稳妥的默认设置。
+- `tmux-plugins/tmux-yank`：复制内容到系统剪贴板。
+- `tmux-plugins/tmux-open`：打开高亮的文件路径或 URL。
+
+可选但当前未启用：
+
+- `tmux-plugins/tmux-cpu`
+- `tmux-plugins/tmux-continuum`
+
+TPM 插件管理快捷键：
+
+- `Prefix + I`：安装插件
+- `Prefix + u`：更新插件
+- `Prefix + Alt + u`：卸载已移除插件
+
+## 已启用功能与新增功能
+
+- 基于 Oh My Tmux 主题体系与状态栏段落。
+- 默认开启鼠标模式（`set -g mouse on`）。
+- 增大历史滚动条缓存（`set -g history-limit 10000`）。
+- 开启复制到系统剪贴板（`tmux_conf_copy_to_os_clipboard=true`）。
+- 新增分屏快捷键：`Prefix + =` 用于左右分屏（`split-window -h`）。
+- 保留分屏快捷键：`Prefix + -` 用于上下分屏。
+- 新增会话树 `dd` 删除流程（`Prefix + s`）：
+  - 第一次按 `d`：进入删除确认键表
+  - 第二次按 `d`：删除当前选中项（session/window/pane）
+  - `Esc`：退出删除确认键表
+
+> 说明：`Prefix + s` 是 tmux 内置 choose-tree；`tmux-session-wizard` 默认是 `Prefix + T`（除非你自行改键）。
+
+## tmux 常用快捷键
+
+以下默认 `Prefix` 为 `Ctrl+b`。
+
+### 会话与列表
+
+- `Prefix + s`：打开 session 树（choose-tree）
+- `j` / `k`：在列表中下移/上移
+- `dd`：删除当前选中项（本仓库自定义）
+- `Prefix + T`：打开 session wizard 弹窗（插件默认）
+
+### 窗口与面板
+
+- `Prefix + c`：新建窗口
+- `Prefix + w`：打开窗口列表
+- `Prefix + -`：上下分屏
+- `Prefix + =`：左右分屏（自定义）
+- `Prefix + x`：关闭当前面板
+- `Prefix + z`：放大/还原当前面板
+- `Prefix + q`：显示面板编号
+
+### 导航与维护
+
+- `Prefix + h/j/k/l`：在面板间移动
+- `Prefix + H/J/K/L`：调整面板大小
+- `Prefix + r`：重新加载 tmux 配置
+- `Prefix + m`：切换鼠标模式（自定义）
+
+### 复制模式与剪贴板
+
+- `Prefix + [`：进入复制模式
+- 在 `copy-mode-vi` 中：`v` 开始选择，`y` 复制并退出
+- 在 macOS/Linux 环境满足条件时，复制内容会写入系统剪贴板
+
 # nvim
 
 基于[nvchad](https://nvchad.com/)的nvim配置,
