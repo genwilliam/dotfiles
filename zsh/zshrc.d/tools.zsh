@@ -28,3 +28,12 @@ fi
 # mise begin
 eval "$(mise activate zsh)"
 # mise end
+
+# android begin
+export ANDROID_HOME=$HOME/Developer/tools/Android/sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+
+export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+export PATH=$ANDROID_HOME/emulator:$PATH
+# android end

@@ -49,10 +49,9 @@ nvm() {
 
 # npm begin
 # I download openclaw from npm
-# Only add npm global bin when npm is available to avoid failing interactive shells
-if command -v npm >/dev/null 2>&1; then
-  export PATH="$(npm bin -g):$PATH"
-fi
+# NOTE: npm bin command was removed in npm v10+
+# Use nvm to manage npm path automatically, no manual PATH modification needed
+# export PATH="$(npm bin -g):$PATH"  # Removed - causes PATH pollution in npm v10+
 # npm end
 
 # uv begin
