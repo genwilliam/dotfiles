@@ -1,54 +1,96 @@
-[user]
-    name = genwilliam
-    email = 178803510+genwilliam@users.noreply.github.com
-
 # Allow private/local config
+# Private config for sensitive info (e.g. GitHub token)
 [include]
-    path = ~/.gitconfig.local            # private config for sensitive info (e.g. GitHub token)
+    path = ~/.gitconfig.local
 
-# Core settings
 [core]
+    # Use VS Code as default editor
     editor = code --wait
-    excludesfile = ~/.gitignore_global
-    ignorecase = false
-    autocrlf = input # auto convert CRLF to LF on commit, but not the other way around
-    untrackedCache = true # speed up status on large repos by caching untracked files
 
+    # Global gitignore file
+    excludesfile = ~/.gitignore_global
+
+    # Treat uppercase/lowercase as different
+    ignorecase = false
+
+    # Convert CRLF to LF on commit
+    autocrlf = input
+
+    # Speed up status in large repos
+    untrackedCache = true
+
+# Default branch name for git init
 [init]
     defaultBranch = main
 
+# Use rebase instead of merge when pulling
 [pull]
-    rebase = true # use rebase instead of merge when pulling, to maintain a cleaner history
+    rebase = true
+    ff = only
 
+# Push only current branch and require upstream
 [push]
-    default = simple # only push the current branch to its upstream, and refuse to push if it doesn't have an upstream
+    default = simple
+    autoSetupRemote = true
 
+# Automatically remove remote-tracking branches that no longer exist
 [fetch]
-    prune = true # automatically remove remote-tracking branches that no longer exist on the remote
+    prune = true
 
+# Use macOS Keychain to store credentials securely
 [credential]
-    helper = osxkeychain # use macOS Keychain to store credentials securely
+    helper = osxkeychain
 
+# Enable colored output
 [color]
-    ui = auto # enable color output in Git commands when output is to a terminal
+    ui = auto
 
+# Auto-correct mistyped git commands
 [help]
-    autocorrect = 1 # auto-correct mistyped Git commands after a short delay (1 decisecond)
+    autocorrect = 1
 
+# Handle whitespace when applying patches
 [apply]
-    whitespace = nowarn # don't warn about whitespace errors when applying patches
+    whitespace = fix
 
+# Show most recently changed branches first
+[branch]
+    sort = -committerdate
+
+# Include summaries of merged commits in merge commit messages
+[merge]
+    log = true
+
+# Don't keep backup files after mergetool
 [mergetool]
-    keepBackup = false # don't keep backup files after using mergetool
+    keepBackup = false
 
+# Don't prompt before launching difftool
 [difftool]
-    prompt = false # don't prompt before launching difftool
+    prompt = false
 
 [alias]
-    st = status -sb # short status with branch info
-    co = checkout  # checkout shortcut
-    br = branch    # branch shortcut
-    ci = commit    # commit shortcut
-    lg = log --oneline --graph --decorate --all # pretty log with graph and decorations
-    last = log -1 HEAD # show the last commit
-    count = shortlog -sn # show commit counts by author
+    # Status (short format)
+    st = status -sb
+
+    # Checkout / branch
+    co = checkout
+    br = branch
+
+    # Commit
+    ci = commit
+
+    # Pretty log graph
+    lg = log --oneline --graph --decorate --all
+
+    # Show last commit
+    last = log -1 HEAD
+
+    # Commit count per author
+    count = shortlog -sn
+
+    # List contributors
+    contributors = shortlog -sn
+
+    # Show current configured user email
+    whoami = config user.email

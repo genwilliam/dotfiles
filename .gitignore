@@ -2,3 +2,5 @@
 .AppleDouble
 .LSOverride
 *.txt
+
+*.local
