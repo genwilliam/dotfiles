@@ -23,3 +23,12 @@ alias tl="tmux ls"
 alias tk="tmux kill-session -t"
 alias tn="tmux new -s"
 # tmux end
+
+# brew begin
+alias b="brew"
+alias bi="brew install"
+alias bu="brew update"
+alias bl="brew list"
+alias br="brew remove"
+alias bc="brew cleanup"
+# brew end
