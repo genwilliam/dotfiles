@@ -19,3 +19,8 @@ zstyle ':completion:*' file-sort modification
 if [[ -n "${LS_COLORS:-}" ]]; then
 	zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
+
+if command -v fzf >/dev/null 2>&1; then
+  # Set up fzf key bindings and fuzzy completion
+  source <(fzf --zsh)
+fi
