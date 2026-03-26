@@ -1,49 +1,49 @@
 # Allow private/local config
 # Private config for sensitive info (e.g. GitHub token)
 [include]
-    path = ~/.gitconfig.local
+  path = ~/.gitconfig.local
 
 [core]
-    # Use VS Code as default editor
-    editor = code --wait
+  # Use VS Code as default editor
+  editor = code --wait
 
-    # Global gitignore file
-    excludesfile = ~/.gitignore_global
+  # Global gitignore file
+  excludesfile = ~/.gitignore_global
 
-    # Treat uppercase/lowercase as different
-    ignorecase = false
+  # Treat uppercase/lowercase as different
+  ignorecase = false
 
-    # Convert CRLF to LF on commit
-    autocrlf = input
+  # Convert CRLF to LF on commit
+  autocrlf = input
 
-    # Speed up status in large repos
-    untrackedCache = true
+  # Speed up status in large repos
+  untrackedCache = true
 
 # Default branch name for git init
 [init]
-    defaultBranch = main
+  defaultBranch = main
 
 # Use rebase instead of merge when pulling
 [pull]
-    rebase = true
-    ff = only
+  rebase = true
+  ff = only
 
 # Push only current branch and require upstream
 [push]
-    default = simple
-    autoSetupRemote = true
+  default = simple
+  autoSetupRemote = true
 
 # Automatically remove remote-tracking branches that no longer exist
 [fetch]
-    prune = true
+  prune = true
 
 # Use macOS Keychain to store credentials securely
 [credential]
-    helper = osxkeychain
+  helper = osxkeychain
 
 # Enable colored output
 [color]
-    ui = auto
+  ui = auto
 
 # Auto-correct mistyped git commands
 [help]
@@ -51,15 +51,15 @@
 
 # Handle whitespace when applying patches
 [apply]
-    whitespace = fix
+  whitespace = fix
 
 # Show most recently changed branches first
 [branch]
-    sort = -committerdate
+  sort = -committerdate
 
 # Include summaries of merged commits in merge commit messages
 [merge]
-    log = true
+  log = true
 
 # Don't keep backup files after mergetool
 [mergetool]
@@ -67,30 +67,11 @@
 
 # Don't prompt before launching difftool
 [difftool]
-    prompt = false
+  prompt = false
 
 [alias]
-    # Status (short format)
-    st = status -sb
-
-    # Checkout / branch
-    co = checkout
-    br = branch
-
-    # Commit
-    ci = commit
-
-    # Pretty log graph
-    lg = log --oneline --graph --decorate --all
-
-    # Show last commit
-    last = log -1 HEAD
-
-    # Commit count per author
-    count = shortlog -sn
-
-    # List contributors
-    contributors = shortlog -sn
-
-    # Show current configured user email
-    whoami = config user.email
+  lg = log --oneline --graph --decorate --all
+  last = log -1 HEAD
+  st = status -sb
+  contributors = shortlog -sn
+  whoami = config user.email
