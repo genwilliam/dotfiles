@@ -25,16 +25,80 @@ if command -v thefuck >/dev/null 2>&1; then
 fi
 # thefuck end
 
+# nvm begin
+# keep nvm as on-demand fallback for projects that require it
+export NVM_DIR="$HOME/.nvm"
+typeset -g _NVM_LOADED=0
+
+_load_nvm() {
+  [[ "$_NVM_LOADED" == "1" ]] && return 0
+
+  local nvm_prefix=""
+
+  if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
+    nvm_prefix="/opt/homebrew/opt/nvm"
+  elif [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
+    nvm_prefix="/usr/local/opt/nvm"
+  else
+    return 1
+  fi
+
+  source "$nvm_prefix/nvm.sh"
+  [[ -s "$nvm_prefix/etc/bash_completion.d/nvm" ]] && source "$nvm_prefix/etc/bash_completion.d/nvm"
+  _NVM_LOADED=1
+  return 0
+}
+
+_with_nvm() {
+  local cmd="$1"
+  shift
+
+  _load_nvm
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "$cmd failed to load from nvm (expected: /opt/homebrew/opt/nvm/nvm.sh or /usr/local/opt/nvm/nvm.sh)" >&2
+    return 127
+  fi
+
+  "$cmd" "$@"
+}
+
+nvm() {
+  _with_nvm nvm "$@"
+}
+
+node() {
+  _with_nvm node "$@"
+}
+
+npm() {
+  _with_nvm npm "$@"
+}
+
+npx() {
+  _with_nvm npx "$@"
+}
+# nvm end
+
 # mise begin
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  mise() {
+    unfunction mise
+    eval "$(command mise activate zsh)"
+    mise "$@"
+  }
+fi
 # mise end
 
 # android begin
 export ANDROID_HOME=$HOME/Developer/tools/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 
-export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$ANDROID_HOME/emulator:$PATH
+typeset -gU path
+path=(
+  $ANDROID_HOME/cmdline-tools/latest/bin
+  $ANDROID_HOME/platform-tools
+  $ANDROID_HOME/emulator
+  $path
+)
+export PATH
 # android end
-
