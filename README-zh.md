@@ -90,22 +90,23 @@ cd ~/dotfiles
 | `.zshrc`    | 3        | **交互 shell 启动时**      | interactive shell                              | ❌ 否（仅交互 shell）  | alias、prompt、plugin、completion           |
 | `.zlogin`   | 4        | **login shell 启动完成后** | login shell                                    | ❌ 否（只在 login 时） | 登录后任务、欢迎信息、启动程序              |
 
-我使用[`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh)来管理我的zsh配置,它是一个开源的、社区驱动的框架,可以帮助你轻松地管理你的zsh配置文件,并且提供了很多有用的插件和主题.
+我现在不再使用 Oh My Zsh 运行时框架。
+插件通过 `zsh/zshrc.d/plugins.zsh` 直接从 Homebrew 路径 `source` 加载。
+仓库中的 `ohmyzsh/` 目录仅作为历史插件列表存档。
 
 ## 补全缓存稳定性（`compinit` / `compdump`）
 
 在插件较多的配置中，重复执行 `source ~/.zshrc` 变慢，通常不是插件本身慢，而是 `compinit` 反复重建补全缓存（`compdump`）导致的。
 
-- `oh-my-zsh.sh` 会在执行 `compinit` 前把插件补全路径追加到 `fpath`。
-- 如果同一 shell 会话里多次 `source ~/.zshrc`，`fpath` 可能出现重复项并改变补全元数据指纹。
-- 元数据发生变化后，Oh My Zsh 会判定缓存失效并重建 dump，导致加载时间从毫秒级升到数百毫秒甚至更高。
+- 同一 shell 会话多次 `source ~/.zshrc` 时，如果路径数组不去重，补全元数据可能漂移。
+- 元数据变化后，`compinit` 可能重建缓存，导致加载时间从毫秒级升到数百毫秒甚至更高。
 
 ### 本仓库当前方案
 
-- 使用 `typeset -gU fpath` 保证 `fpath` 唯一化，避免重复 source 引起路径膨胀。
+- 使用 `typeset -gU fpath path` 保证路径数组唯一化，避免重复 source 引起路径膨胀。
 - 通过 `ZSH_CACHE_DIR` 与 `ZSH_COMPDUMP` 固定缓存位置到 `~/.cache`，确保缓存行为可预测。
-- 对 Oh My Zsh 的 bootstrap 做一次性守卫：同一交互 shell 中只进行一次补全初始化，避免重复触发 `compinit`/`compdump`。
-- 将性能剖析输出保持为可选（`ZSH_STARTUP_PROFILE=1`），日常使用默认无额外输出与开销。
+- 在 `completion.zsh` 中使用 `compinit -C -d "$ZSH_COMPDUMP"`，优先复用缓存。
+- 将补全策略显式化：`Tab` 使用菜单补全，`fzf-tab` 通过独立按键触发。
 
 我使用过两个主题,[`powerlevel10k`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes#powerlevel10k),和[`starship`](https://github.com/starship/starship)
 

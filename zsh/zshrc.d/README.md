@@ -5,26 +5,25 @@
 To reduce maintenance overhead, the `zsh` config follows a single-responsibility layered structure:
 
 - `zshenv`: universal shell (all zsh processes)
-  - The sole authority for `PATH`
-  - Basic locale and other universal environment variables
+  - Minimal universal environment variables only (e.g. locale)
 - `zprofile`: login shell
-  - Login-time initialization (e.g. `brew shellenv`)
+  - Login-time initialization and `PATH` ownership (e.g. `brew shellenv`)
 - `zshrc`: interactive shell
   - Orchestrates load order and module sourcing
 
 ## Module Responsibilities in zshrc.d
 
-- `env.zsh` (Pre-OMZ): Interactive env vars and runtime strategy (does not manage PATH)
+- `env.zsh` (Pre-OMZ): Interactive env vars only (does not manage PATH)
 - `plugins.zsh` (Pre-OMZ): Only defines `plugins=(...)`
 - `aliases.zsh` (Post-OMZ): Aliases
-- `completion.zsh` (Post-OMZ): Completion and fzf-tab behavior
-- `tools.zsh` (Post-OMZ): Tool initialization (lazy-load wherever possible)
+- `completion.zsh` (Post-OMZ): Completion behavior and fzf integration
+- `tools.zsh` (Post-OMZ): Tool initialization and runtime lazy-load hooks (lazy-load wherever possible)
 - `local/*.zsh` (Post-OMZ): Machine-specific or local extensions
 
 ## Runtime Strategy
 
 - `mise` is the primary runtime manager (via `~/.local/share/mise/shims`)
-- `nvm` is an on-demand fallback, lazy-loaded only on the first invocation of `nvm`
+- `nvm` is an on-demand fallback, lazy-loaded on first invocation of `nvm/node/npm/npx`
 - Avoid adding wrappers for `node/npm/npx` to minimize conflicts and hook overhead
 
 ## Performance Profiling
@@ -44,11 +43,11 @@ Avoid placing general-purpose config here — that would break the "repo as sour
 # What belongs in each file
 
 **zshenv**
-✅ Put: the most fundamental environment needed by all zsh processes (primary PATH, `LANG`, locale).
+✅ Put: the most fundamental environment needed by all zsh processes (`LANG`, locale).
 ❌ Don't put: aliases, plugins, prompt, any slow commands (heavy `eval` / external probing).
 
 **zprofile**
-✅ Put: one-time login-shell initialization (e.g. `brew shellenv`).
+✅ Put: one-time login-shell initialization (e.g. `brew shellenv`) and `PATH` composition.
 ❌ Don't put: interactive-experience config (completion, aliases, prompt, plugins).
 
 **zshrc**
@@ -56,9 +55,9 @@ Avoid placing general-purpose config here — that would break the "repo as sour
 ❌ Don't put: heavy business config — push those down into the zshrc.d modules.
 
 **env.zsh**
-✅ Put: interactive-shell-specific env vars and runtime strategy (nvm lazy loading).
+✅ Put: interactive-shell-specific env vars.
 ❌ Don't put: PATH ownership (that lives in `zshenv` now).
 
 **tools.zsh**
-✅ Put: tool initialization and hooks (starship, optional mise activation, thefuck lazy-load).
+✅ Put: tool initialization and hooks (starship, optional mise activation, thefuck lazy-load, nvm lazy-load).
 ❌ Don't put: unrelated env vars, aliases, or completion rules.

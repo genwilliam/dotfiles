@@ -91,22 +91,23 @@ Briefly talk about my understanding:
 | `.zshrc`    | 3          | Loaded for **interactive shells**          | interactive shell                               | ❌ No (interactive only) | aliases, prompt, plugins, completion                   |
 | `.zlogin`   | 4          | Loaded **after `.zshrc` in a login shell** | login shell                                     | ❌ No (login only)       | Post-login tasks, startup messages                     |
 
-I use [`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh) to manage my zsh configuration. It's an open-source, community-driven framework that makes zsh config easier and provides many useful plugins and themes.
+I do not use the Oh My Zsh runtime framework anymore.
+Zsh plugins are loaded directly from Homebrew paths in `zsh/zshrc.d/plugins.zsh` (source-based, framework-free).
+The `ohmyzsh/` directory in this repo is kept only as a historical plugin-list archive.
 
 ## Completion cache stability (`compinit` / `compdump`)
 
 In large plugin setups, repeated `source ~/.zshrc` can become unexpectedly slow when `compinit` keeps rebuilding completion metadata (`compdump`).
 
-- `oh-my-zsh.sh` appends plugin completion paths into `fpath` before running `compinit`.
-- If `~/.zshrc` is sourced multiple times in the same shell, duplicated `fpath` entries can change completion metadata fingerprints.
-- Once metadata differs, Oh My Zsh invalidates the dump and regenerates completion cache, which makes startup/reload time jump from milliseconds to hundreds of milliseconds (or more).
+- Re-sourcing `~/.zshrc` in the same shell can cause completion metadata drift if path arrays are not deduplicated.
+- Once metadata differs, `compinit` may regenerate completion cache, which can make reload time jump from milliseconds to hundreds of milliseconds.
 
 ### Current fix in this repo
 
-- Enable `fpath` uniqueness (`typeset -gU fpath`) to prevent path duplication during repeated sourcing.
+- Enable `fpath`/`path` uniqueness (`typeset -gU fpath path`) to prevent duplication during repeated sourcing.
 - Pin cache locations with `ZSH_CACHE_DIR` and `ZSH_COMPDUMP` under `~/.cache` for deterministic cache behavior.
-- Guard Oh My Zsh bootstrap so completion initialization is performed once per interactive shell session, avoiding redundant `compinit`/`compdump` work on repeated `source ~/.zshrc`.
-- Keep profile output optional (`ZSH_STARTUP_PROFILE=1`) so normal interactive use is clean and low-overhead.
+- Use `compinit -C -d "$ZSH_COMPDUMP"` in `completion.zsh` to prefer cache reuse.
+- Keep completion policy explicit: `Tab` uses menu selection, while `fzf-tab` is available via keybinding.
 
 I've used two themes: [`powerlevel10k`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes#powerlevel10k) and [`starship`](https://github.com/starship/starship).
 
