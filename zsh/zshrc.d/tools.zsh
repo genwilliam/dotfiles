@@ -44,38 +44,99 @@ _load_nvm() {
   fi
 
   source "$nvm_prefix/nvm.sh"
-  [[ -s "$nvm_prefix/etc/bash_completion.d/nvm" ]] && source "$nvm_prefix/etc/bash_completion.d/nvm"
+
+  # Try to expose a default node binary quickly (without forcing nvm use on every cd)
+  if ! command -v node >/dev/null 2>&1 && [[ -r "$NVM_DIR/alias/default" ]]; then
+    local default_alias
+    default_alias="$(<"$NVM_DIR/alias/default")"
+    default_alias="${default_alias//$'\r'/}"
+    default_alias="${default_alias//$'\n'/}"
+
+    if [[ -x "$NVM_DIR/versions/node/$default_alias/bin/node" ]]; then
+      path=("$NVM_DIR/versions/node/$default_alias/bin" $path)
+      export PATH
+    fi
+  fi
+
+  # If default alias is not configured, use the latest installed Node in NVM_DIR
+  if ! command -v node >/dev/null 2>&1 && [[ -d "$NVM_DIR/versions/node" ]]; then
+    local latest_installed
+    latest_installed="$(command ls -1 "$NVM_DIR/versions/node" 2>/dev/null | command sort -V | command tail -n 1)"
+    if [[ -n "$latest_installed" && -x "$NVM_DIR/versions/node/$latest_installed/bin/node" ]]; then
+      path=("$NVM_DIR/versions/node/$latest_installed/bin" $path)
+      export PATH
+    fi
+  fi
+
   _NVM_LOADED=1
   return 0
 }
 
-_with_nvm() {
-  local cmd="$1"
-  shift
+_prepend_nvm_node_bin_if_needed() {
+  # If node binary already exists in PATH, do nothing
+  whence -p node >/dev/null 2>&1 && return 0
 
-  _load_nvm
-  if ! command -v "$cmd" >/dev/null 2>&1; then
-    echo "$cmd failed to load from nvm (expected: /opt/homebrew/opt/nvm/nvm.sh or /usr/local/opt/nvm/nvm.sh)" >&2
-    return 127
+  # Prefer .nvmrc in current project when it points to an installed version
+  if [[ -f .nvmrc ]]; then
+    local requested
+    requested="$(tr -d '[:space:]' < .nvmrc)"
+    if [[ -n "$requested" && -x "$NVM_DIR/versions/node/$requested/bin/node" ]]; then
+      path=("$NVM_DIR/versions/node/$requested/bin" $path)
+      export PATH
+      return 0
+    fi
   fi
 
-  "$cmd" "$@"
+  # Then try alias/default
+  if [[ -r "$NVM_DIR/alias/default" ]]; then
+    local default_alias
+    default_alias="$(<"$NVM_DIR/alias/default")"
+    default_alias="${default_alias//$'\r'/}"
+    default_alias="${default_alias//$'\n'/}"
+    if [[ -x "$NVM_DIR/versions/node/$default_alias/bin/node" ]]; then
+      path=("$NVM_DIR/versions/node/$default_alias/bin" $path)
+      export PATH
+      return 0
+    fi
+  fi
+
+  # Last fast fallback: latest installed version under NVM_DIR
+  if [[ -d "$NVM_DIR/versions/node" ]]; then
+    local latest_installed
+    latest_installed="$(command ls -1 "$NVM_DIR/versions/node" 2>/dev/null | command sort -V | command tail -n 1)"
+    if [[ -n "$latest_installed" && -x "$NVM_DIR/versions/node/$latest_installed/bin/node" ]]; then
+      path=("$NVM_DIR/versions/node/$latest_installed/bin" $path)
+      export PATH
+      return 0
+    fi
+  fi
+
+  return 1
 }
 
 nvm() {
-  _with_nvm nvm "$@"
+  _load_nvm || {
+    echo "nvm failed to load (expected: /opt/homebrew/opt/nvm/nvm.sh or /usr/local/opt/nvm/nvm.sh)" >&2
+    return 127
+  }
+
+  # nvm.sh defines the real nvm function; do not unfunction it here.
+  nvm "$@"
 }
 
 node() {
-  _with_nvm node "$@"
+  whence -p node >/dev/null 2>&1 || _prepend_nvm_node_bin_if_needed || true
+  command node "$@"
 }
 
 npm() {
-  _with_nvm npm "$@"
+  whence -p npm >/dev/null 2>&1 || _prepend_nvm_node_bin_if_needed || true
+  command npm "$@"
 }
 
 npx() {
-  _with_nvm npx "$@"
+  whence -p npx >/dev/null 2>&1 || _prepend_nvm_node_bin_if_needed || true
+  command npx "$@"
 }
 # nvm end
 
