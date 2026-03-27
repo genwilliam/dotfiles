@@ -1,15 +1,7 @@
-# Let fzf-tab take over tab completion and enter interactive selection mode
+# Completion behavior and keybinding
+# zstyle ':completion:*' menu no
 zstyle ':completion:*' menu select
 bindkey '^I' expand-or-complete
-
-# fzf-tab Group switching and interactive behavior
-zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':fzf-tab:*' fzf-flags '--ansi --height 40% --reverse --border'
-if command -v eza >/dev/null 2>&1; then
-	zstyle ':fzf-tab:complete:*' fzf-preview 'eza -1 --color=always $realpath'
-else
-	zstyle ':fzf-tab:complete:*' fzf-preview 'ls -1 $realpath'
-fi
 
 # rules: ignore case, ignore separators (.-_)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*'
@@ -20,7 +12,25 @@ if [[ -n "${LS_COLORS:-}" ]]; then
 	zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
 
-if command -v fzf >/dev/null 2>&1; then
-  # Set up fzf key bindings and fuzzy completion
-  source <(fzf --zsh)
+autoload -Uz compinit
+if (( ! ${+_comps} )); then
+	# Completion init strategy (default = A)
+	# A) Default (recommended): compinit -C -d
+	#    Prioritizes startup speed by using the dump cache;
+	#    suitable for day-to-day use on personal machines.
+	# B) More conservative: full check on first run, cache afterward.
+	#    if [[ ! -s "$ZSH_COMPDUMP" ]]; then
+	#      compinit -d "$ZSH_COMPDUMP"
+	#    else
+	#      compinit -C -d "$ZSH_COMPDUMP"
+	#    fi
+	# C) Aggressive mode: skip security checks
+	#    (use at your own risk; not recommended as default).
+	#    compinit -u -C -d "$ZSH_COMPDUMP"
+	#    Note: this may suppress warnings for insecure directory
+	#    permissions and can increase completion script injection risk.
+	compinit -C -d "$ZSH_COMPDUMP"
 fi
+
+# Keep Tab on standard completion (do not use fzf-tab behavior).
+bindkey '^I' expand-or-complete

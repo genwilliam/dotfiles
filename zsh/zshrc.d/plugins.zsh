@@ -1,19 +1,12 @@
 plugins=(
-  command-not-found
+  # command-not-found # linux can be configured to use this, but on macOS it just adds a delay and doesn't work well with Homebrew
   git
+  fzf
   zsh-autosuggestions
-  z
-  sudo
   fast-syntax-highlighting
-  fzf-tab
-  extract
-  history-substring-search
   you-should-use
   aliases
   colored-man-pages
-  web-search
-  vscode
-  docker
-  zsh-history-enquirer
-  
+  # git-extras
+  zoxide
 )
