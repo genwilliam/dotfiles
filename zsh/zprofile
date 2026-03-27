@@ -2,6 +2,25 @@
 # only executed for login shells
 # recommended to set environment variables, PATH, etc. here
 
+typeset -U path PATH
+
+prepend_path_if_exists() {
+  [[ -d "$1" ]] && path=("$1" $path)
+}
+
+prepend_path_if_exists "$HOME/.local/bin"
+prepend_path_if_exists "$HOME/Library/pnpm"
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  prepend_path_if_exists /opt/homebrew/bin
+  prepend_path_if_exists /usr/local/bin
+elif [[ "$OSTYPE" == linux* ]]; then
+  prepend_path_if_exists /usr/local/bin
+fi
+
+unfunction prepend_path_if_exists
+export PATH
+
 if command -v brew >/dev/null 2>&1; then
   eval "$("$(command -v brew)" shellenv)"
 fi

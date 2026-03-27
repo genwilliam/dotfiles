@@ -10,58 +10,34 @@ export ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-$XDG_CACHE_HOME/oh-my-zsh}"
 export ZSH_COMPDUMP="${ZSH_COMPDUMP:-$XDG_CACHE_HOME/zsh/.zcompdump-${HOST%%.*}-${ZSH_VERSION}}"
 
 mkdir -p "$ZSH_CACHE_DIR" "${ZSH_COMPDUMP:h}"
-typeset -gU fpath
+typeset -gU fpath path
 
-zmodload zsh/datetime 2>/dev/null
-
-typeset -gF _zsh_boot_start _zsh_boot_end _zsh_boot_elapsed_ms
-if [[ "${ZSH_STARTUP_PROFILE:-0}" == "1" ]]; then
-  _zsh_boot_start=${EPOCHREALTIME:-0}
-fi
-
-source_with_profile() {
+source_if_readable() {
   local file="$1"
-  local label="${2:-${1##*/}}"
   [[ -r "$file" ]] || return 0
-
-  if [[ "${ZSH_STARTUP_PROFILE:-0}" == "1" ]]; then
-    local -F start end elapsed_ms
-    start=${EPOCHREALTIME:-0}
-    source "$file"
-    end=${EPOCHREALTIME:-0}
-    elapsed_ms=$(( (end - start) * 1000 ))
-    printf 'zsh-startup\t%s\t%.2fms\n' "$label" "$elapsed_ms" >&2
-  else
-    source "$file"
-  fi
+  source "$file"
 }
 
 # Pre-OMZ modules (must load before OMZ)
 for file in env.zsh plugins.zsh; do
-  source_with_profile "$ZSHRC_D/$file"
+  source_if_readable "$ZSHRC_D/$file"
 done
 
 # Load Oh My Zsh
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   if [[ -z "${_OMZ_LOADED_ONCE:-}" ]]; then
-    source_with_profile "$ZSH/oh-my-zsh.sh" "oh-my-zsh.sh"
+    source_if_readable "$ZSH/oh-my-zsh.sh"
     typeset -g _OMZ_LOADED_ONCE=1
   fi
 fi
 
 # Post-OMZ modules (deterministic order)
 for file in aliases.zsh completion.zsh tools.zsh; do
-  source_with_profile "$ZSHRC_D/$file"
+  source_if_readable "$ZSHRC_D/$file"
 done
 
 # Optional modules (local overrides)
 # if you have custom configurations that don't fit into the above categories, put them in ~/.zshrc.d/local/*.zsh and they will be sourced in lexicographical order after all other modules
 # for file in "$ZSHRC_D"/local/*.zsh(N); do
-#   source_with_profile "$file"
+#   source_if_readable "$file"
 # done
-
-if [[ "${ZSH_STARTUP_PROFILE:-0}" == "1" ]]; then
-  _zsh_boot_end=${EPOCHREALTIME:-0}
-  _zsh_boot_elapsed_ms=$(( (_zsh_boot_end - _zsh_boot_start) * 1000 ))
-  printf 'zsh-startup\ttotal\t%.2fms\n' "$_zsh_boot_elapsed_ms" >&2
-fi
