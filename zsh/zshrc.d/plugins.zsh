@@ -7,6 +7,6 @@ plugins=(
   you-should-use
   aliases
   colored-man-pages
-  # git-extras
   zoxide
+  extract
 )
