@@ -40,7 +40,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightC
 defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
 
 # open mouse acceleration(default is false, false is opened, true is closed)
-# Set movement speed of the mouse cursor: https://macos-defaults.com/mouse/scaling.html 
+# Set movement speed of the mouse cursor: https://macos-defaults.com/mouse/scaling.html
 defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
 
 # Choose whether to enable moving focus with Tab and Shift Tab.
@@ -93,7 +93,7 @@ defaults write com.apple.dock "show-recents" -bool "true" # default
 
 # Minimize animation effect (https://macos-defaults.com/dock/mineffect.html)
 defaults write com.apple.dock "mineffect" -string "genie" # default
-# defaults write com.apple.dock "mineffect" -string "scale" && killall Dock 
+# defaults write com.apple.dock "mineffect" -string "scale" && killall Dock
 # defaults write com.apple.dock "mineffect" -string "suck" && killall Dock
 
 ####### Show only apps that are open in the Dock(https://macos-defaults.com/dock/static-only.html)
@@ -113,6 +113,9 @@ defaults write -g CGFontRenderingFontSmoothingDisabled -bool false # Subpixel An
 ######################################### other #############################
 # Show Attachments as Icons
 defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
+
+# disable CapsLockDelay functionality
+hidutil property --set '{"CapsLockDelayOverride":0}'
 
 # clean dns cache
 sudo dscacheutil -flushcache && \
