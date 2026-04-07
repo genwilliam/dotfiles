@@ -27,7 +27,7 @@ alias tn="tmux new -s"
 # brew begin
 alias b="brew"
 alias bi="brew install"
-alias bu="brew update"
+alias bu="brew uninstall"
 alias bl="brew list"
 alias br="brew remove"
 alias bc="brew cleanup"
