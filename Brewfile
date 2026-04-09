@@ -3,12 +3,14 @@ brew "bat"
 brew "colima"
 brew "docker"
 brew "eza"
+brew "fd"
 brew "fzf"
 brew "gettext"
 brew "gh"
 brew "git"
 brew "go@1.24", link: true
 brew "go@1.25"
+brew "lazydocker"
 brew "libevent"
 brew "libuv"
 brew "lz4"
@@ -28,6 +30,7 @@ cask "alcove"
 cask "aldente", args: { appdir: "~/Applications" }
 cask "anki", args: { appdir: "~/Applications" }
 cask "app-cleaner"
+cask "bilibili"
 cask "cleanshot", args: { appdir: "~/Applications" }
 cask "devtoys", args: { appdir: "~/Applications" }
 cask "downie", args: { appdir: "~/Applications" }
@@ -37,6 +40,7 @@ cask "font-fira-code"
 cask "font-meslo-lg-nerd-font"
 cask "goland"
 cask "google-chrome", args: { appdir: "~/Applications" }
+cask "hammerspoon"
 cask "iina", args: { appdir: "~/Applications" }
 cask "iterm2", args: { appdir: "~/Applications" }
 cask "jordanbaird-ice", args: { appdir: "~/Applications" }
@@ -52,7 +56,6 @@ cask "one-switch"
 cask "onyx"
 cask "permute", args: { appdir: "~/Applications" }
 cask "picgo", args: { appdir: "~/Applications" }
-cask "playcover-community"
 cask "pycharm"
 cask "raycast", args: { appdir: "~/Applications" }
 cask "rustdesk", args: { appdir: "~/Applications" }
@@ -80,6 +83,7 @@ vscode "hediet.vscode-drawio"
 vscode "humao.rest-client"
 vscode "ms-azuretools.vscode-containers"
 vscode "ms-azuretools.vscode-docker"
+vscode "ms-ceintl.vscode-language-pack-zh-hans"
 vscode "ms-python.debugpy"
 vscode "ms-python.isort"
 vscode "ms-python.python"
@@ -90,9 +94,11 @@ vscode "ms-vscode.azure-repos"
 vscode "ms-vscode.remote-explorer"
 vscode "ms-vscode.remote-repositories"
 vscode "ms-vscode.vscode-typescript-next"
+vscode "octref.vetur"
 vscode "pkief.material-icon-theme"
 vscode "redhat.vscode-yaml"
 vscode "ritwickdey.liveserver"
+vscode "streetsidesoftware.code-spell-checker"
 vscode "usernamehw.errorlens"
 vscode "xabikos.javascriptsnippets"
 go "github.com/air-verse/air"
