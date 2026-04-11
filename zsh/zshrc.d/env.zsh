@@ -16,3 +16,7 @@ export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 export _ZO_FZF_OPTS="--height 40% --layout=reverse --border"
 export _ZO_EXCLUDE_DIRS="$HOME:$HOME/Downloads"
 # zoxide end
+
+# rust begin
+export PATH="$HOME/.cargo/bin:$PATH"
+# rust end
