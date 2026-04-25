@@ -47,7 +47,7 @@ defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int "2"
 
 # Enable "group windows by application" in Mission Control (default is false)
-defaults write com.apple.dock "expose-group-apps" -bool "true" && killall Dock
+defaults write com.apple.dock "expose-group-apps" -bool "true"
 
 ############################## Finder ###############################
 # Show Path Bar
@@ -84,17 +84,23 @@ defaults write com.apple.finder "ShowExternalHardDrivesOnDesktop" -bool "true"
 # defaults write com.apple.dock tilesize -int 63
 defaults delete com.apple.dock "tilesize" # default settings
 
+# Hidden apps use transparent icons
+defaults write com.apple.dock showhidden -bool true
+
+# Put the Dock on the bottom of the screen
+defaults write com.apple.dock "orientation" -string "bottom"
+
 # when auto hiding the dock is open, make the animation 2 seconds(default: 0.5, close: 0)
 # defaults write com.apple.dock "autohide-time-modifier" -float "2"
 
 # Show recent usage history in Dock
 defaults write com.apple.dock "show-recents" -bool "true" # default
-# defaults write com.apple.dock "show-recents" -bool "false" && killall Dock
+# defaults write com.apple.dock "show-recents" -bool "false"
 
 # Minimize animation effect (https://macos-defaults.com/dock/mineffect.html)
 defaults write com.apple.dock "mineffect" -string "genie" # default
-# defaults write com.apple.dock "mineffect" -string "scale" && killall Dock
-# defaults write com.apple.dock "mineffect" -string "suck" && killall Dock
+# defaults write com.apple.dock "mineffect" -string "scale"
+# defaults write com.apple.dock "mineffect" -string "suck"
 
 ####### Show only apps that are open in the Dock(https://macos-defaults.com/dock/static-only.html)
 
@@ -106,7 +112,7 @@ defaults write com.apple.dock "scroll-to-open" -bool "true"
 defaults write com.apple.dock magnification -bool true
 defaults write com.apple.dock largesize -int 67
 
-################################################## font #####################################3
+################################################## font #####################################
 defaults write -g CGFontRenderingFontSmoothingDisabled -bool false # Subpixel Anti-Aliasing (Font Smoothing)
 
 
@@ -124,6 +130,18 @@ sudo killall -HUP mDNSResponder
 # Firewall Service
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
+# By default, pressing a function key will perform the special feature printed on that key.
+defaults write NSGlobalDomain com.apple.keyboard.fnState -bool false
+# F1, F2, etc. behave as standard function keys. Press the fn key to use the special features printed on the key.
+# defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
+
+# Turn on the language indicator while switching input sources.
+defaults write kCFPreferencesAnyApplication TSMLanguageIndicatorEnabled -bool "true"
+
+# Do reorder Spaces based on most recent use(default)
+defaults write com.apple.dock "mru-spaces" -bool "true"
+# Keep the Spaces arrangement
+defaults write com.apple.dock "mru-spaces" -bool "false"
 
 ############################### delete google update ################
 ~/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/ksinstall --nuke
