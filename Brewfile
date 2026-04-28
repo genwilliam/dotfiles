@@ -1,3 +1,4 @@
+tap "oven-sh/bun"
 tap "steipete/tap"
 brew "bat"
 brew "colima"
@@ -11,6 +12,7 @@ brew "git"
 brew "go@1.24", link: true
 brew "go@1.25"
 brew "lazydocker"
+brew "lazygit"
 brew "libevent"
 brew "libuv"
 brew "lz4"
@@ -20,21 +22,28 @@ brew "ncurses"
 brew "neovim"
 brew "nvm"
 brew "ripgrep"
+brew "rustup"
 brew "starship"
 brew "tldr"
 brew "tmux"
 brew "uv"
+brew "yazi"
 brew "zoxide"
 brew "steipete/tap/remindctl"
 cask "alcove"
 cask "aldente", args: { appdir: "~/Applications" }
+cask "alt-tab"
 cask "anki", args: { appdir: "~/Applications" }
 cask "app-cleaner"
+cask "appcleaner"
+cask "bettertouchtool"
 cask "bilibili"
+cask "chatgpt"
 cask "cleanshot", args: { appdir: "~/Applications" }
 cask "devtoys", args: { appdir: "~/Applications" }
 cask "downie", args: { appdir: "~/Applications" }
 cask "easydict", args: { appdir: "~/Applications" }
+cask "flux-app"
 cask "folo", args: { appdir: "~/Applications" }
 cask "font-fira-code"
 cask "font-meslo-lg-nerd-font"
@@ -46,22 +55,26 @@ cask "iterm2", args: { appdir: "~/Applications" }
 cask "jordanbaird-ice", args: { appdir: "~/Applications" }
 cask "keka", args: { appdir: "~/Applications" }
 cask "localsend"
-cask "lulu"
 cask "menubarx", args: { appdir: "~/Application" }
 cask "motrix"
 cask "navicat-premium-lite", args: { appdir: "~/Applications" }
 cask "notion"
+cask "obsidian"
 cask "ollama-app", args: { appdir: "~/Applications" }
 cask "one-switch"
 cask "onyx"
 cask "permute", args: { appdir: "~/Applications" }
 cask "picgo", args: { appdir: "~/Applications" }
 cask "pycharm"
+cask "quitter"
 cask "raycast", args: { appdir: "~/Applications" }
 cask "rustdesk", args: { appdir: "~/Applications" }
+cask "shortcat"
+cask "stats"
 cask "steam"
-cask "steam-plus-plus", args: { appdir: "~/Applications" }
+cask "steam-plus-plus"
 cask "super-productivity"
+cask "textmate"
 cask "typora", args: { appdir: "~/Applications" }
 cask "visual-studio-code", args: { appdir: "~/Applications" }
 cask "zed", args: { appdir: "~/Applications" }
@@ -98,8 +111,11 @@ vscode "octref.vetur"
 vscode "pkief.material-icon-theme"
 vscode "redhat.vscode-yaml"
 vscode "ritwickdey.liveserver"
+vscode "rust-lang.rust-analyzer"
 vscode "streetsidesoftware.code-spell-checker"
+vscode "tauri-apps.tauri-vscode"
 vscode "usernamehw.errorlens"
+vscode "vue.volar"
 vscode "xabikos.javascriptsnippets"
 go "github.com/air-verse/air"
 go "golang.org/x/tools/gopls"
