@@ -20,3 +20,7 @@ export _ZO_EXCLUDE_DIRS="$HOME:$HOME/Downloads"
 # rust begin
 export PATH="$HOME/.cargo/bin:$PATH"
 # rust end
+
+# jdk begin
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+# jdk end
