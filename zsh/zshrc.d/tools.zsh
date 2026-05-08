@@ -151,15 +151,15 @@ fi
 # mise end
 
 # android begin
-export ANDROID_HOME=$HOME/Developer/tools/Android/sdk
-export ANDROID_SDK_ROOT=$ANDROID_HOME
+# export ANDROID_HOME=$HOME/Developer/tools/Android/sdk
+# export ANDROID_SDK_ROOT=$ANDROID_HOME
 
-typeset -gU path
-path=(
-  $ANDROID_HOME/cmdline-tools/latest/bin
-  $ANDROID_HOME/platform-tools
-  $ANDROID_HOME/emulator
-  $path
-)
-export PATH
+# typeset -gU path
+# path=(
+#   $ANDROID_HOME/cmdline-tools/latest/bin
+#   $ANDROID_HOME/platform-tools
+#   $ANDROID_HOME/emulator
+#   $path
+# )
+# export PATH
 # android end
