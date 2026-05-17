@@ -24,3 +24,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # jdk begin
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 # jdk end
+
+# openclaw begin
+# OpenClaw Completion
+[ -f "/Users/genwilliam/.openclaw/completions/openclaw.zsh" ] && source "/Users/genwilliam/.openclaw/completions/openclaw.zsh"
+# openclaw end
