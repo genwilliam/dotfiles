@@ -1,43 +1,42 @@
-# Oh My Zsh configuration
 export ZSH="$HOME/.oh-my-zsh"
 export ZSHRC_D="$HOME/.zshrc.d"
+
 ZSH_THEME=""
 DISABLE_AUTO_UPDATE="true"
 ZSH_DISABLE_COMPFIX="true"
 
 : "${XDG_CACHE_HOME:=$HOME/.cache}"
+
 export ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-$XDG_CACHE_HOME/oh-my-zsh}"
 export ZSH_COMPDUMP="${ZSH_COMPDUMP:-$XDG_CACHE_HOME/zsh/.zcompdump-${HOST%%.*}-${ZSH_VERSION}}"
 
 mkdir -p "$ZSH_CACHE_DIR" "${ZSH_COMPDUMP:h}"
-typeset -gU fpath path
+
+typeset -gU path fpath
 
 source_if_readable() {
-  local file="$1"
-  [[ -r "$file" ]] || return 0
-  source "$file"
+  [[ -r "$1" ]] || return 0
+  source "$1"
 }
 
-# Pre-OMZ modules (must load before OMZ)
-for file in env.zsh plugins.zsh; do
-  source_if_readable "$ZSHRC_D/$file"
-done
+source_modules() {
+  local file
 
-# Load Oh My Zsh
+  for file in "$@"; do
+    source_if_readable "$ZSHRC_D/$file"
+  done
+}
+
+source_modules \
+  env.zsh \
+  env.local.zsh \
+  plugins.zsh
+
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
-  if [[ -z "${_OMZ_LOADED_ONCE:-}" ]]; then
-    source_if_readable "$ZSH/oh-my-zsh.sh"
-    typeset -g _OMZ_LOADED_ONCE=1
-  fi
+  source "$ZSH/oh-my-zsh.sh"
 fi
 
-# Post-OMZ modules (deterministic order)
-for file in aliases.zsh completion.zsh tools.zsh; do
-  source_if_readable "$ZSHRC_D/$file"
-done
-
-# Optional modules (local overrides)
-# if you have custom configurations that don't fit into the above categories, put them in ~/.zshrc.d/local/*.zsh and they will be sourced in lexicographical order after all other modules
-# for file in "$ZSHRC_D"/local/*.zsh(N); do
-#   source_if_readable "$file"
-# done
+source_modules \
+  aliases.zsh \
+  completion.zsh \
+  tools.zsh
