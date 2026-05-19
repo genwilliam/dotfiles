@@ -9,4 +9,5 @@ plugins=(
   colored-man-pages
   zoxide
   extract
+  # fzf-tab
 )
