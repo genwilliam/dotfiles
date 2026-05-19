@@ -1,7 +1,9 @@
 # Completion behavior and keybinding
 # zstyle ':completion:*' menu no
 zstyle ':completion:*' menu select
-bindkey '^I' expand-or-complete
+
+# Keep Tab on standard completion (do not use fzf-tab behavior)
+# bindkey '^I' expand-or-complete
 
 # rules: ignore case, ignore separators (.-_)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*'
@@ -14,6 +16,8 @@ fi
 
 autoload -Uz compinit
 if (( ! ${+_comps} )); then
+	compinit -C -d "$ZSH_COMPDUMP"
+fi
 	# Completion init strategy (default = A)
 	# A) Default (recommended): compinit -C -d
 	#    Prioritizes startup speed by using the dump cache;
@@ -29,8 +33,5 @@ if (( ! ${+_comps} )); then
 	#    compinit -u -C -d "$ZSH_COMPDUMP"
 	#    Note: this may suppress warnings for insecure directory
 	#    permissions and can increase completion script injection risk.
-	compinit -C -d "$ZSH_COMPDUMP"
-fi
 
-# Keep Tab on standard completion (do not use fzf-tab behavior).
-bindkey '^I' expand-or-complete
+
