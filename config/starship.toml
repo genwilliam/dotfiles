@@ -4,20 +4,21 @@
 add_newline = true
 
 command_timeout = 800
-scan_timeout = 30
+scan_timeout = 50
 
 format = """
-$directory$git_branch$git_status$python${custom.python_env_source}${custom.python_unactivated_hint}$golang$nodejs${custom.vue}$fill$cmd_duration$time
+$hostname$directory$git_branch$git_status$git_metrics$java$python${custom.python_env_source}${custom.python_unactivated_hint}$golang$nodejs${custom.vue}$fill$cmd_duration$time
 $status$character
 """
+
+[fill]
+symbol = " "
 
 [character]
 success_symbol = "[❯](bold green) "
 error_symbol = "[❯](bold red) "
 vicmd_symbol = "[❮](bold yellow) "
 
-[fill]
-symbol = " "
 
 # Git branch/status display configuration
 [git_branch]
@@ -58,7 +59,7 @@ style = "bold blue"
 read_only = " 󰌾"
 
 
-# Python (built-in priority)
+# Python
 [python]
 symbol = " "
 format = "via [$symbol$version]($style) "
@@ -142,11 +143,6 @@ time_format = "%H:%M"
 format = "[$time]($style) "
 style = "bold white"
 
-[custom.time_cond]
-when = 'test -n "$SSH_CONNECTION" || test "${STARSHIP_SHOW_TIME:-0}" = "1"'
-command = 'date +"%H:%M"'
-style = "bold white"
-format = "[$output]($style) "
 
 [status]
 disabled = false
@@ -231,6 +227,8 @@ symbol = " "
 
 [java]
 symbol = " "
+format = "via [$symbol$version]($style) "
+style = "bold red"
 
 [julia]
 symbol = " "
