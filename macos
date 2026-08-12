@@ -76,7 +76,8 @@ defaults write com.apple.finder "ShowHardDrivesOnDesktop" -bool "false"
 # Hide external disks on desktop(default is true)
 defaults write com.apple.finder "ShowExternalHardDrivesOnDesktop" -bool "true"
 
-
+# setting the default language to English (en) for the Finder application
+defaults write com.apple.finder AppleLanguages -array en
 
 
 ############################### Dock ###############################
