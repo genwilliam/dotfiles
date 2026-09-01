@@ -79,6 +79,9 @@ defaults write com.apple.finder "ShowExternalHardDrivesOnDesktop" -bool "true"
 # setting the default language to English (en) for the Finder application
 defaults write com.apple.finder AppleLanguages -array en
 
+# Hide the ~/Library folder in Finder by default (true by default)
+chflags hidden ~/Library
+
 
 ############################### Dock ###############################
 # set the icon size of Dock items to 63 pixels
