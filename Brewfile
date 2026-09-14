@@ -84,8 +84,6 @@ cask "easydict", args: { appdir: "~/Applications" }
 cask "folo", args: { appdir: "~/Applications" }
 cask "font-fira-code"
 cask "font-meslo-lg-nerd-font"
-# Download accelerator and organiser
-cask "free-download-manager"
 # Go (golang) IDE
 cask "goland"
 # Web browser
@@ -108,6 +106,8 @@ cask "mailspring"
 cask "menubarx", args: { appdir: "~/Application" }
 # Deep clean, analyze, and optimize app
 cask "mole-app"
+# Open-source download manager
+cask "motrix"
 # Database administration and development tool
 cask "navicat-premium-lite", args: { appdir: "~/Applications" }
 # App to write, plan, collaborate, and get organised
