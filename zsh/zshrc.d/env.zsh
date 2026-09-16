@@ -30,7 +30,3 @@ export MAVEN_HOME="$HOME/Developer/tools/apache-maven-3.9.16"
 export PATH="$MAVEN_HOME/bin:$PATH"
 # maven end
 
-# openclaw begin
-# OpenClaw Completion
-[ -f "/Users/genwilliam/.openclaw/completions/openclaw.zsh" ] && source "/Users/genwilliam/.openclaw/completions/openclaw.zsh"
-# openclaw end
