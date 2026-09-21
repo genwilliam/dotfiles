@@ -10,6 +10,7 @@ export OLLAMA_API_KEY="ollama-local"
 
 # brew begin
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+export HOMEBREW_UPDATE_TO_TAG=1
 # brew end
 
 # zoxide begin
