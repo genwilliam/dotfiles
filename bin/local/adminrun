@@ -1,0 +1,51 @@
+#!/bin/zsh
+
+# macOS administrator command runner for dotfiles.
+#
+# Usage:
+#   adminrun <command> [args...]
+
+if (( $# == 0 )); then
+    print "Usage: adminrun <command> [args...]"
+    exit 2
+fi
+
+# Create a temporary script so the original arguments can be
+# preserved safely when executed with administrator privileges.
+tmp_script=$(mktemp "${TMPDIR:-/tmp}/adminrun.XXXXXX") || {
+    print -u2 "adminrun: failed to create temporary file"
+    exit 1
+}
+
+# Always remove the temporary script when the command finishes.
+cleanup() {
+    rm -f -- "$tmp_script"
+}
+
+trap cleanup EXIT INT TERM HUP
+
+{
+    print '#!/bin/zsh'
+    printf '%q ' "$@"
+    print
+} > "$tmp_script" || {
+    print -u2 "adminrun: failed to write temporary script"
+    exit 1
+}
+
+chmod 700 "$tmp_script" || {
+    print -u2 "adminrun: failed to chmod temporary script"
+    exit 1
+}
+
+# Ask macOS for administrator authorization instead of requiring
+# the current user to have sudo privileges.
+osascript - "$tmp_script" <<'APPLESCRIPT'
+on run argv
+    set scriptPath to item 1 of argv
+    set commandPath to quoted form of scriptPath
+    do shell script "exec /bin/zsh " & commandPath with administrator privileges
+end run
+APPLESCRIPT
+
+exit $?
