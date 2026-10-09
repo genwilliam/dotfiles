@@ -43,8 +43,8 @@ defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
 # Set movement speed of the mouse cursor: https://macos-defaults.com/mouse/scaling.html
 defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
 
-# Choose whether to enable moving focus with Tab and Shift Tab.
-defaults write NSGlobalDomain AppleKeyboardUIMode -int "2"
+# Choose whether to enable moving focus with Tab and Shift Tab.(0, 2, 3)
+defaults write NSGlobalDomain AppleKeyboardUIMode -int "3"
 
 # Enable "group windows by application" in Mission Control (default is false)
 defaults write com.apple.dock "expose-group-apps" -bool "true"
@@ -52,9 +52,6 @@ defaults write com.apple.dock "expose-group-apps" -bool "true"
 ############################## Finder ###############################
 # Show Path Bar
 defaults write com.apple.finder ShowPathbar -bool true
-
-# Search in the current folder by default (SCcf)
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 # Set the default view style for folders with no custom settings(https://macos-defaults.com/finder/fxpreferredviewstyle.html)
 defaults write com.apple.finder "FXPreferredViewStyle" -string "icnv"
@@ -116,6 +113,49 @@ defaults write com.apple.dock "scroll-to-open" -bool "true"
 defaults write com.apple.dock magnification -bool true
 defaults write com.apple.dock largesize -int 67
 
+# Tuck the minimized window into the application icon
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Show indicator lights for open applications in the Dock (default is true)
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Prevent the creation of .DS_Store files on network or USB volumes (default is false)
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Set the default location for new Finder windows to the home directory (PfHm)
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+
+# Show external hard drives on the desktop (default is false)
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+
+# Show all filename extensions (default is false)
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Prevent the creation of .DS_Store files on network volumes (default is false)
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# Disable apple personalized advertising (default is true)
+defaults write com.apple.AdLib allowApplePersonalizedAdvertising -bool false
+
+# Silently handle application crash reports
+# defaults write com.apple.CrashReporter DialogType -string "none"
+
+# Disable Spotlight Suggestions in Look Up (default is true)
+defaults write com.apple.lookup.shared LookupSuggestionsDisabled -bool true
+
+# Disable Siri (default is true)
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+
+# New documents are saved by default on Mac instead of iCloud
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+# Mission Control groups Windows by application
+defaults write com.apple.dock expose-group-apps -bool true
+
+# Show the day of the week in the menu bar clock
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+
 ################################################## font #####################################
 defaults write -g CGFontRenderingFontSmoothingDisabled -bool false # Subpixel Anti-Aliasing (Font Smoothing)
 
@@ -144,8 +184,6 @@ defaults write kCFPreferencesAnyApplication TSMLanguageIndicatorEnabled -bool "t
 
 # Do reorder Spaces based on most recent use(default)
 defaults write com.apple.dock "mru-spaces" -bool "true"
-# Keep the Spaces arrangement
-defaults write com.apple.dock "mru-spaces" -bool "false"
 
 ############################### delete google update ################
 ~/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/ksinstall --nuke
