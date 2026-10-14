@@ -23,7 +23,13 @@ To reduce maintenance overhead, the `zsh` config follows a single-responsibility
 ## Runtime Strategy
 
 - `mise` is the primary runtime manager (via `~/.local/share/mise/shims`)
-- `nvm` is an on-demand fallback, lazy-loaded on first invocation of `nvm/node/npm/npx`
+- `nvm` is an on-demand fallback, lazy-loaded on first invocation of `nvm`
+- The default installed NVM Node `bin` directory is added to `PATH` without loading `nvm.sh`
+- This fast PATH fallback does not activate NVM or guarantee `NVM_BIN`; use `nvm use` for that
+- `.nvmrc` switching is handled by an optional `chpwd` hook and can be disabled with `NVM_AUTO_USE=0`
+- The nearest parent `.nvmrc` applies to child directories; leaving a project does not restore `default`
+- A shell started inside a project applies `.nvmrc` once; ordinary directories still avoid loading `nvm.sh`
+- A repeated failed `.nvmrc` lookup is suppressed until the file changes; retry explicitly with `nvm use` after installing a version
 - Avoid adding wrappers for `node/npm/npx` to minimize conflicts and hook overhead
 
 ## Performance Profiling

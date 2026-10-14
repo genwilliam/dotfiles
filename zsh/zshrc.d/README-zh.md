@@ -23,7 +23,13 @@
 ## Runtime 策略
 
 - `mise` 作为主 runtime 管理器（通过 `~/.local/share/mise/shims`）
-- `nvm` 作为按需 fallback，在首次执行 `nvm/node/npm/npx` 时懒加载
+- `nvm` 作为按需 fallback，仅在首次执行 `nvm` 时懒加载
+- 不加载 `nvm.sh`，直接将默认已安装 NVM Node 的 `bin` 目录加入 `PATH`
+- 快速 PATH 回退不代表 NVM 已激活，也不保证 `NVM_BIN`；需要完整环境时请执行 `nvm use`
+- `.nvmrc` 版本切换由可选的 `chpwd` hook 处理，可通过 `NVM_AUTO_USE=0` 关闭
+- 最近的父级 `.nvmrc` 对子目录生效；离开项目后不会自动恢复 `default`
+- 如果 Shell 在项目目录中启动，会执行一次 `.nvmrc`；普通目录启动仍不会加载 `nvm.sh`
+- 相同 `.nvmrc` 的连续失败会被抑制，文件变化后才自动重试；安装版本后可显式执行 `nvm use`
 - 避免为 `node/npm/npx` 增加 wrapper，减少冲突和 hook
 
 ## 性能定位
