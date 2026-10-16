@@ -1,3 +1,4 @@
+export PATH="/Users/genwilliam/.openclaw/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 export ZSHRC_D="$HOME/.zshrc.d"
 

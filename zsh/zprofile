@@ -24,3 +24,5 @@ export PATH
 if command -v brew >/dev/null 2>&1; then
   eval "$("$(command -v brew)" shellenv)"
 fi
+
+export PATH="/Users/genwilliam/.openclaw/bin:$PATH"
