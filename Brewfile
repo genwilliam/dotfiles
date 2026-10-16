@@ -1,3 +1,9 @@
+tap "genwilliam/tap", "https://github.com/genwilliam/homebrew-tap.git"
+tap "homebrew/core"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Static checker for GitHub Actions workflow files
+brew "actionlint"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # GNU internationalization (i18n) and localization (l10n) library
@@ -54,14 +60,16 @@ brew "tldr"
 brew "tmux"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Why is this running?
+brew "witr"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Time tracker
+cask "activitywatch", args: { appdir: "~/Applications" }
 # Utility to add Dynamic Island like features to notch area
 cask "alcove"
 # Menu bar tool to limit maximum charging percentage
-cask "aldente", args: { appdir: "~/Applications" }
-# Enable Windows-like alt-tab
-cask "alt-tab"
+cask "aldente"
 # Platform for API documentation, debugging, and testing
 cask "apifox"
 # Application uninstaller
@@ -74,6 +82,8 @@ cask "bilibili"
 cask "chatgpt-classic"
 # Screen capturing tool
 cask "cleanshot", args: { appdir: "~/Applications" }
+# Code editor
+cask "codeedit", args: { appdir: "~/Applications" }
 # Social software for creating music short videos
 cask "douyin"
 # Downloads videos from different websites
@@ -100,6 +110,8 @@ cask "keka", args: { appdir: "~/Applications" }
 cask "localsend"
 # Open-source firewall to block unknown outgoing connections
 cask "lulu"
+# Clipboard manager
+cask "maccy"
 # Fork of Nylas Mail
 cask "mailspring"
 # Menu bar browser
@@ -122,26 +134,40 @@ cask "onyx"
 cask "permute", args: { appdir: "~/Applications" }
 # Tool for uploading images
 cask "picgo", args: { appdir: "~/Applications" }
+# Used to access context-specific actions when text is selected
+cask "popclip"
 # IDE for professional Python development
 cask "pycharm"
 # Control your tools with a few keystrokes
 cask "raycast", args: { appdir: "~/Applications" }
+# Creator-focused screen recorder with auto-zoom, cursor effects, and more
+cask "recordly"
 # Open source virtual/remote desktop application
 cask "rustdesk", args: { appdir: "~/Applications" }
 # App that enables mouse-free UI interaction
 cask "shortcat"
+# Sound and audio controller
+cask "genwilliam/tap/soundsource@5.9.0", args: { appdir: "/Applications" }, trusted: true
+# Music streaming service
+cask "spotify"
 # Video game digital distribution service
 cask "steam"
 # Steam helper tools
 cask "steam-plus-plus"
 # To-do list and time tracker
 cask "super-productivity"
+# Network toolbox
+cask "surge"
 # Cloud video conferencing
 cask "tencent-meeting"
 # Configurable document editor that supports Markdown
 cask "typora", args: { appdir: "~/Applications" }
 # Open-source code editor
 cask "visual-studio-code", args: { appdir: "~/Applications" }
+# Menu bar toolkit with keep-awake, system monitor and volume mixer
+cask "vorssaint"
+# TweetDeck-style X/Twitter client
+cask "xdeck"
 # Multiplayer code editor
 cask "zed", args: { appdir: "~/Applications" }
 vscode "alefragnani.bookmarks"
@@ -178,11 +204,13 @@ vscode "redhat.vscode-yaml"
 vscode "ritwickdey.liveserver"
 vscode "rust-lang.rust-analyzer"
 vscode "streetsidesoftware.code-spell-checker"
+vscode "surgenetworks.surge-language-support"
 vscode "tauri-apps.tauri-vscode"
-vscode "vue.volar"
 vscode "xabikos.javascriptsnippets"
 go "github.com/air-verse/air"
 go "golang.org/x/tools/gopls"
 go "honnef.co/go/tools/cmd/staticcheck"
 uv "nano-pdf"
 uv "thefuck"
+npm "corepack"
+npm "openclaw"
