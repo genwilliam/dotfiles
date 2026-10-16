@@ -1,0 +1,59 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: shellcheck + syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: bash syntax
+        run: |
+          bash -n install.sh
+          bash -n bootstrap.sh
+          bash -n tests/test-install.sh
+
+      - name: shellcheck (bash scripts)
+        run: shellcheck --shell=bash --severity=style install.sh bootstrap.sh tests/test-install.sh
+
+  test:
+    name: install/verify regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
+      - name: zsh syntax
+        run: |
+          for f in zsh/zshenv zsh/zprofile zsh/zlogin zsh/zlogout zsh/zshrc zsh/zshrc.d/*.zsh p10k/zshrc p10k/p10k.zsh bin/local/adminrun; do
+            echo "checking $f"
+            zsh -n "$f"
+          done
+
+      # Everything runs against a throwaway $HOME; no Homebrew, no network.
+      - name: Run the test suite
+        run: ./tests/test-install.sh
+
+      # Proves the installer works on Linux, independently of the test suite.
+      - name: Install into a throwaway HOME and verify
+        run: |
+          export HOME
+          HOME="$(mktemp -d)"
+          ./install.sh --link-only --prompt starship
+          ./bootstrap.sh --no-warm
+          test -L "$HOME/.zshrc"
+          test -L "$HOME/.editorconfig"
+          test -L "$HOME/.config/tmux"
+          test -L "$HOME/.local/bin/adminrun"
+          echo "Linux install verified in $HOME"

@@ -1,6 +1,9 @@
 # login shell configuration
 # only executed for login shells
 # recommended to set environment variables, PATH, etc. here
+#
+# PATH ownership: this file is responsible for PATH. .zshrc orchestrates
+# interactive setup and must not add PATH entries of its own.
 
 typeset -U path PATH
 
@@ -21,8 +24,23 @@ fi
 unfunction prepend_path_if_exists
 export PATH
 
+# Homebrew's shellenv prepends its own bin/sbin and must run before the
+# user-specific tool directories below, so that those keep priority.
 if command -v brew >/dev/null 2>&1; then
   eval "$("$(command -v brew)" shellenv)"
 fi
 
-export PATH="/Users/genwilliam/.openclaw/bin:$PATH"
+# User-tool bin directories, added last so they take priority. Guarded by an
+# existence check: these tools are optional and not present on every machine.
+# Keep this list $HOME-relative so the file stays portable.
+typeset -a _extra_user_bins=(
+  "$HOME/.openclaw/bin"
+)
+
+typeset _extra_bin
+for _extra_bin in "${_extra_user_bins[@]}"; do
+  [[ -d "$_extra_bin" ]] && path=("$_extra_bin" $path)
+done
+
+unset _extra_user_bins _extra_bin
+export PATH

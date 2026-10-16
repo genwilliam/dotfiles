@@ -1,11 +1,87 @@
 #!/usr/bin/env bash
-
+#
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # macOS System Settings Automation Script - Based on Current User Preferences
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# NOT run by install.sh. Run it by hand: it changes system-wide state.
+#
+# What it changes:
+#   * `defaults write` preferences for the Dock, Finder, keyboard, trackpad,
+#     menu bar, Mail, Mission Control, screenshots, fonts and the login window
+#   * `chflags hidden ~/Library` -- hides your Library folder in Finder
+#   * `hidutil` CapsLock delay override (cleared again on the next reboot)
+#   * flushes the DNS cache and switches the application firewall ON (sudo)
+#   * removes Google's software updater if it is installed -- deletes files
+#   * restarts Finder, Dock and SystemUIServer (closes any open Finder windows)
+#
+# Requirements: macOS, an administrator account (it asks for sudo once).
+# Risks: preferences have no undo, the firewall is turned on, Google's updater
+#        is removed, and the Finder/Dock restart. Read the file before running.
+#          Individual `defaults write` failures are not fatal, by design: the
+#        script applies the whole list rather than stopping at the first
+#        preference the current macOS version no longer supports.
+#
+# Usage: ./macos [-n|--dry-run] [-y|--yes] [-h|--help]
 
-################################ Request administrator password before running
-sudo -v
+set -uo pipefail
+
+ASSUME_YES=0
+DRY_RUN=0
+
+usage() {
+  cat <<'EOF'
+Usage: ./macos [options]
+
+Applies the personal macOS system preferences listed in this file.
+
+Options:
+  -n, --dry-run  Print every command instead of running it
+  -y, --yes      Do not ask for confirmation
+  -h, --help     Show this help message
+
+This script is not run by install.sh. See README.md for the full list of
+changes and the associated risks.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -n|--dry-run) DRY_RUN=1; shift ;;
+    -y|--yes)     ASSUME_YES=1; shift ;;
+    -h|--help)    usage; exit 0 ;;
+    *) printf 'Unknown option: %s (try --help)\n' "$1" >&2; exit 2 ;;
+  esac
+done
+
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  # Preview mode: shadow the tools this script drives with printers, so the
+  # whole file can be reviewed without changing anything. `killall` is
+  # deliberately NOT shadowed here: shell functions cannot be invoked through
+  # `sudo`, and the non-sudo restart loop below handles its own dry-run.
+  defaults() { printf '  [dry-run] defaults'; printf ' %s' "$@"; printf '\n'; }
+  sudo()     { printf '  [dry-run] sudo';     printf ' %s' "$@"; printf '\n'; }
+  hidutil()  { printf '  [dry-run] hidutil';  printf ' %s' "$@"; printf '\n'; }
+  chflags()  { printf '  [dry-run] chflags';  printf ' %s' "$@"; printf '\n'; }
+fi
+
+if [[ "$DRY_RUN" -eq 0 ]]; then
+  if [[ "$ASSUME_YES" -eq 0 && -t 0 ]]; then
+    cat <<'EOF'
+This will change system-wide macOS settings, switch the application firewall
+ON, remove Google's software updater if present, and restart Finder/Dock.
+Continue? [y/N]: 
+EOF
+    read -r reply || true
+    case "$reply" in
+      [Yy]) ;;
+      *) printf 'Aborted; nothing was changed.\n'; exit 0 ;;
+    esac
+  fi
+
+  ############################## Request administrator password before running
+  sudo -v
+fi
 
 ############################### Hot Corners ###############################
 # Top-left corner -> Mission Control (2)
@@ -186,12 +262,31 @@ defaults write kCFPreferencesAnyApplication TSMLanguageIndicatorEnabled -bool "t
 defaults write com.apple.dock "mru-spaces" -bool "true"
 
 ############################### delete google update ################
-~/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/ksinstall --nuke
+# Removes Google's silent auto-updater. This DELETES files, and it is only
+# meaningful if Google software (e.g. Chrome) is installed.
+GOOGLE_UPDATER="$HOME/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/ksinstall"
+if [[ -x "$GOOGLE_UPDATER" ]]; then
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '  [dry-run] %s --nuke\n' "$GOOGLE_UPDATER"
+  else
+    "$GOOGLE_UPDATER" --nuke
+  fi
+else
+  printf 'Google software updater not installed; skipping.\n'
+fi
 
 # begin
 echo "Refreshing system settings..."
 for app in "Finder" "Dock" "SystemUIServer"; do
-    killall "$app" &> /dev/null
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+        printf '  [dry-run] killall %s\n' "$app"
+    else
+        killall "$app" &> /dev/null
+    fi
 done
 
-echo "Configuration complete! Some settings may require a restart to take effect."
+if [[ "$DRY_RUN" -eq 1 ]]; then
+    echo "Dry run complete: nothing was changed."
+else
+    echo "Configuration complete! Some settings may require a restart to take effect."
+fi

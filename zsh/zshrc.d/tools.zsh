@@ -2,7 +2,9 @@
 # initialize only once to avoid repeated eval
 
 # starship begin
-if command -v starship >/dev/null 2>&1; then
+# Only one prompt may be active. The p10k flavour sets ZSH_PROMPT_FLAVOR=p10k
+# in p10k/zshrc, so starship stays out of the way there.
+if [[ "${ZSH_PROMPT_FLAVOR:-starship}" == "starship" ]] && command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
 # starship end

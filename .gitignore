@@ -1,9 +1,33 @@
+# OS junk
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Python bytecode (e.g. config/thefuck/__pycache__)
+__pycache__/
+*.pyc
+*.pyo
+
+# Machine-local overrides -- never commit these.
+#   git/gitconfig.local      git identity (name/email)
+#   zsh/zshrc.d/env.local.zsh  per-machine environment
+*.local
+*.local.*
+
+# Deliberate: keep stray note/todo text files out of the repository.
+# Note this also matches files such as requirements.txt, so add an explicit
+# `!path/to/file.txt` if you ever need to track one.
 *.txt
 
-*.local
-./tmux/plugins/
+# tmux plugins are installed by TPM at runtime (oh-my-tmux derives the plugin
+# directory from the config location: ~/.config/tmux/plugins, which is this
+# directory through the install.sh symlink). They are not tracked here.
+# The previous pattern was "./tmux/plugins/", which git ignores because
+# patterns starting with "./" never match anything.
+tmux/plugins/
 
-*.local.*
+# Neovim plugins are installed by lazy.nvim into ~/.local/share/nvim, so the
+# native package directory only exists as a placeholder. nvim/pack/.gitkeep
+# keeps the empty directory in the repository.
+nvim/pack/*
+!nvim/pack/.gitkeep
