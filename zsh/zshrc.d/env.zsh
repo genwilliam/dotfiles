@@ -16,7 +16,7 @@ export OLLAMA_API_KEY="ollama-local"
 # brew begin
 # One assignment: two separate assignments silently dropped --appdir, because
 # the second one replaced the first.
-# export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications --require-sha"
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications --require-sha"
 export HOMEBREW_UPDATE_TO_TAG=1
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
